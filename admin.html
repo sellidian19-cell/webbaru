@@ -76,14 +76,19 @@
             <!-- TAB 3: METODE PEMBAYARAN -->
             <div id="tab-payments" class="tab-content hidden space-y-6">
                 <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Tambah Bank / E-Wallet Deposit</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="pay-name" class="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Nama Bank/E-Wallet (BCA/QRIS/DANA)">
-                    <input type="file" id="pay-logo" accept="image/*" class="bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                <div class="space-y-3">
+                    <input type="text" id="pay-name" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Nama Bank/E-Wallet (Contoh: BCA / DANA / QRIS)">
+                    <input type="text" id="pay-holder" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Atas Nama Rekening (Contoh: MARVEL88 OFFICIAL)">
+                    <input type="number" id="pay-acc" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Nomor Rekening / No E-Wallet">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Logo Bank/E-Wallet (Opsional)</label>
+                        <input type="file" id="pay-logo" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                    </div>
                 </div>
-                <button onclick="addPayment()" class="bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-xl font-bold">Tambah Metode Pembayaran</button>
+                <button onclick="addPayment()" class="bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-xl font-bold w-full">Tambah Metode Pembayaran</button>
                 
-                <h3 class="font-bold pt-4">Daftar Metode Aktif:</h3>
-                <div id="payment-list" class="grid grid-cols-3 gap-3"></div>
+                <h3 class="font-bold pt-4">Daftar Metode Aktif saat ini:</h3>
+                <div id="payment-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
             </div>
 
             <!-- TAB 4: KELOLA GAME -->
@@ -179,31 +184,65 @@
             }
         }
 
-        // Tambah Metode Pembayaran
+        // Tambah Metode Pembayaran (LENGKAP REKENING & ATAS NAMA)
         function addPayment() {
             const name = document.getElementById('pay-name').value;
+            const holder = document.getElementById('pay-holder').value;
+            const acc = document.getElementById('pay-acc').value;
             const file = document.getElementById('pay-logo').files[0];
 
-            if(!name || !file) return alert("Isi nama dan upload gambar logo bank!");
+            if(!name || !holder || !acc) return alert("Mohon isi Nama Bank, Atas Nama, dan Nomor Rekening!");
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
+            const saveData = (logoData) => {
                 let currentPays = JSON.parse(localStorage.getItem('app_payments') || '[]');
-                currentPays.push({ name: name, logo: e.target.result });
+                currentPays.push({ name: name, holder: holder, acc: acc, logo: logoData || '' });
                 localStorage.setItem('app_payments', JSON.stringify(currentPays));
                 alert("Metode pembayaran berhasil ditambahkan!");
+                
+                // Reset Input
+                document.getElementById('pay-name').value = '';
+                document.getElementById('pay-holder').value = '';
+                document.getElementById('pay-acc').value = '';
+                document.getElementById('pay-logo').value = '';
+                
                 renderPayments();
             };
-            reader.readAsDataURL(file);
+
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) { saveData(e.target.result); };
+                reader.readAsDataURL(file);
+            } else {
+                saveData('');
+            }
+        }
+
+        function deletePayment(index) {
+            if(confirm("Hapus metode pembayaran ini?")) {
+                let currentPays = JSON.parse(localStorage.getItem('app_payments') || '[]');
+                currentPays.splice(index, 1);
+                localStorage.setItem('app_payments', JSON.stringify(currentPays));
+                renderPayments();
+            }
         }
 
         function renderPayments() {
             const list = document.getElementById('payment-list');
             let currentPays = JSON.parse(localStorage.getItem('app_payments') || '[]');
-            list.innerHTML = currentPays.map(p => `
-                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 text-center">
-                    <img src="${p.logo}" class="h-8 mx-auto mb-2 object-contain">
-                    <span class="text-xs font-bold">${p.name}</span>
+            
+            if(currentPays.length === 0) {
+                list.innerHTML = '<p class="text-xs text-gray-400 col-span-2">Belum ada metode bank/E-wallet ditambahkan.</p>';
+                return;
+            }
+
+            list.innerHTML = currentPays.map((p, i) => `
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 flex justify-between items-center">
+                    <div>
+                        <div class="font-bold text-sm text-purple-400">${p.name}</div>
+                        <div class="text-xs text-gray-300">A/N: <b>${p.holder}</b></div>
+                        <div class="text-xs text-yellow-400 font-mono">No: <b>${p.acc}</b></div>
+                    </div>
+                    <button onclick="deletePayment(${i})" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg text-xs">Hapus</button>
                 </div>
             `).join('');
         }
