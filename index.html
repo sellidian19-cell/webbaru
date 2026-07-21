@@ -11,6 +11,12 @@
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .animate-marquee { display: inline-block; animation: marquee 15s linear infinite; }
+        
+        /* Background Stripe untuk Modal Login */
+        .bg-stripes-purple {
+            background-color: #1a092b;
+            background-image: repeating-linear-gradient(45deg, rgba(88, 28, 135, 0.25) 0, rgba(88, 28, 135, 0.25) 10px, transparent 0, transparent 20px);
+        }
     </style>
 </head>
 <body class="bg-[#121212] text-white font-sans selection:bg-purple-500">
@@ -26,7 +32,7 @@
                     </button>
                     
                     <div id="logo-container" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
+                        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
                             <i data-lucide="crown" class="w-4 h-4 text-white"></i>
                         </div>
                         <h1 id="logo-text-display" class="text-2xl font-black italic bg-gradient-to-r from-purple-400 to-white bg-clip-text text-transparent">
@@ -71,22 +77,20 @@
                     </div>
                 </div>
 
-                <!-- AREA TOMBOL Aksi (LOGGED IN vs LOGGED OUT) -->
+                <!-- AREA TOMBOL AKSI -->
                 <div id="auth-actions-container" class="px-4 py-3">
-                    <!-- Tombol jika SUDAH LOGIN -->
                     <div id="btn-group-logged-in" class="flex space-x-3 hidden">
                         <button onclick="openDepoPage()" class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Deposit</button>
                         <button class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Transaksi</button>
                     </div>
 
-                    <!-- Tombol jika BELUM LOGIN / LOGOUT -->
                     <div id="btn-group-logged-out" class="flex space-x-3">
-                        <button onclick="masukAkunSimulasi()" class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-lg text-sm transition shadow-lg">Masuk</button>
-                        <button onclick="masukAkunSimulasi()" class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Daftar</button>
+                        <button onclick="openLoginModal()" class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-lg text-sm transition shadow-lg">Masuk</button>
+                        <button onclick="openRegisterModal()" class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Daftar</button>
                     </div>
                 </div>
 
-                <!-- KOTAK INFORMASI AKUN (Hanya muncul jika LOGIN) -->
+                <!-- KOTAK INFORMASI AKUN -->
                 <div id="user-profile-card" class="mx-4 mb-5 bg-[#1e1e1e] rounded-xl p-4 flex justify-between items-center shadow-lg border border-gray-800 hidden">
                     <div class="flex items-center space-x-4">
                         <div class="flex flex-col items-center">
@@ -100,7 +104,6 @@
                             <div class="flex items-center space-x-3 mt-1.5">
                                 <p class="text-emerald-400 font-bold text-[15px]" id="home-balance">Rp 2.000</p>
                                 <button class="text-white hover:text-gray-300"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
-                                <button class="text-white hover:text-gray-300"><i data-lucide="crosshair" class="w-4 h-4"></i></button>
                             </div>
                         </div>
                     </div>
@@ -119,14 +122,10 @@
                                 <p class="text-[9px] text-yellow-500/70">( SILAKAN PILIH GAME )</p>
                             </div>
                         </div>
-                        <div class="flex space-x-2">
-                            <button class="bg-gray-800 p-1 rounded-full text-yellow-500"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-                            <button class="bg-gray-800 p-1 rounded-full text-yellow-500"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
-                        </div>
                     </div>
 
                     <div id="game-gallery" class="flex overflow-x-auto gap-3 pb-4 hide-scrollbar">
-                        <!-- Game dimasukkan lewat JavaScript -->
+                        <!-- Game dimasukkan via JS -->
                     </div>
                 </div>
             </main>
@@ -151,8 +150,8 @@
 
                     <div id="wd-section" class="hidden space-y-3">
                         <h4 class="text-purple-400 text-sm font-bold mb-3">Formulir Penarikan (Withdraw)</h4>
-                        <input type="number" placeholder="Nominal Penarikan (Min Rp 50.000)" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg text-sm">
-                        <input type="text" placeholder="Nama & Nomor Rekening Tujuan" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg text-sm">
+                        <input type="number" placeholder="Nominal Penarikan (Min Rp 50.000)" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg text-sm text-white">
+                        <input type="text" placeholder="Nama & Nomor Rekening Tujuan" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg text-sm text-white">
                         <button onclick="alert('Permintaan penarikan dikirim!')" class="w-full bg-purple-600 font-bold py-3 rounded-lg">Kirim Penarikan</button>
                     </div>
                 </div>
@@ -162,7 +161,6 @@
             <div id="sidebar-drawer" class="fixed inset-0 bg-black/80 z-50 hidden flex">
                 <div class="w-4/5 max-w-xs bg-[#1a1a1a] h-full p-4 overflow-y-auto space-y-4 shadow-2xl flex flex-col justify-between">
                     <div>
-                        <!-- Sidebar Header -->
                         <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-4">
                             <div class="flex items-center space-x-3">
                                 <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
@@ -180,23 +178,9 @@
                             <i data-lucide="lightbulb" class="w-4 h-4"></i>
                             <span>Panduan Pemain</span>
                         </button>
-
-                        <div class="grid grid-cols-2 gap-2 text-xs">
-                            <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1">
-                                <i data-lucide="award" class="text-emerald-400"></i>
-                                <span>Bonus Saya</span>
-                            </div>
-                            <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1">
-                                <i data-lucide="history" class="text-purple-400"></i>
-                                <span>Riwayat Transaksi</span>
-                            </div>
-                        </div>
                     </div>
 
-                    <!-- TOMBOL DYNAMIC DI SIDEBAR (Masuk/Daftar OR Keluar) -->
-                    <div id="sidebar-auth-button">
-                        <!-- Diisi secara dinamis oleh JavaScript -->
-                    </div>
+                    <div id="sidebar-auth-button"></div>
                 </div>
                 <div onclick="toggleSidebar()" class="flex-1"></div>
             </div>
@@ -226,11 +210,263 @@
         </div>
     </div>
 
+    <!-- ==================== MODAL MASUK (FOTO 1) ==================== -->
+    <div id="modal-login" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
+        <div class="w-full max-w-xs bg-stripes-purple border border-purple-500/40 rounded-2xl p-6 relative shadow-2xl text-center">
+            
+            <!-- Tombol Close -->
+            <button onclick="closeLoginModal()" class="absolute top-3 right-3 text-purple-300 bg-purple-900/60 hover:bg-purple-800 p-1 rounded-full transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Logo -->
+            <div class="flex justify-center items-center space-x-2 mb-2 mt-2">
+                <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
+                    <i data-lucide="crown" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="text-2xl font-black italic bg-gradient-to-r from-purple-300 to-white bg-clip-text text-transparent">MARVEL88</span>
+            </div>
+
+            <h3 class="text-xl font-bold text-white mb-5">Masuk</h3>
+
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-1">Username</label>
+                    <input type="text" id="login-username" required class="w-full bg-white text-black text-sm px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium" placeholder="Masukkan Username">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-purple-200 mb-1">Password</label>
+                    <div class="relative">
+                        <input type="password" id="login-password" required class="w-full bg-white text-black text-sm px-3 py-2.5 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium" placeholder="Masukkan Password">
+                        <button type="button" onclick="togglePasswordVisibility('login-password')" class="absolute right-3 top-2.5 text-gray-500 hover:text-black">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold py-2.5 rounded-lg text-sm shadow-lg transition mt-2">
+                    Masuk
+                </button>
+            </form>
+
+            <div class="mt-3 text-center space-y-3">
+                <a href="#" onclick="alert('Silakan hubungi Customer Service untuk reset password.')" class="text-xs text-purple-300 hover:underline block">Lupa Password ?</a>
+                <p class="text-xs text-purple-200/80">Belum Punya Akun?</p>
+                <button onclick="switchToRegister()" class="w-full border border-purple-400/80 bg-purple-950/40 hover:bg-purple-900/60 text-white font-bold py-2 rounded-lg text-sm transition">
+                    Daftar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DAFTAR (FOTO 2) ==================== -->
+    <div id="modal-register" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 backdrop-blur-sm hidden overflow-y-auto">
+        <div class="w-full max-w-md bg-[#18181c] border border-gray-800 rounded-2xl shadow-2xl overflow-hidden my-auto">
+            
+            <!-- Tab & Close -->
+            <div class="flex justify-between items-center bg-[#121214] px-4 pt-3 border-b border-gray-800">
+                <div class="bg-[#18181c] text-purple-400 font-bold px-5 py-2 rounded-t-lg border-t-2 border-purple-500 text-sm">
+                    Daftar
+                </div>
+                <button onclick="closeRegisterModal()" class="text-gray-400 hover:text-white pb-2">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Form Body -->
+            <form onsubmit="handleRegisterSubmit(event)" class="p-4 space-y-4 max-h-[80vh] overflow-y-auto hide-scrollbar text-xs">
+                
+                <!-- DETAIL AKUN -->
+                <div>
+                    <h4 class="text-purple-400 font-bold text-sm mb-3">Detail Akun</h4>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-gray-300 mb-1">Username</label>
+                            <input type="text" id="reg-username" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Kata Sandi</label>
+                            <div class="relative">
+                                <input type="password" id="reg-password" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg pr-9 focus:border-purple-500 outline-none">
+                                <button type="button" onclick="togglePasswordVisibility('reg-password')" class="absolute right-3 top-2.5 text-gray-400"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Konfirmasi Kata Sandi</label>
+                            <div class="relative">
+                                <input type="password" id="reg-confirm-password" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg pr-9 focus:border-purple-500 outline-none">
+                                                        <button type="button" onclick="togglePasswordVisibility('reg-confirm-password')" class="absolute right-3 top-2.5 text-gray-400"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">No Hp <span class="text-gray-500">(Opsional)</span></label>
+                            <input type="text" class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Email <span class="text-gray-500">(Opsional, Berguna untuk Fitur Reset Password)</span></label>
+                            <input type="email" class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Kode Referral <span class="text-gray-500">(Opsional)</span></label>
+                            <input type="text" class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Captcha</label>
+                            <div class="flex space-x-2 items-center">
+                                <input type="text" id="reg-captcha-input" required class="flex-1 bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                                <div id="captcha-box" class="bg-black tracking-widest text-pink-500 font-bold text-base px-4 py-2 rounded border border-gray-700 select-none">NOOY</div>
+                                <button type="button" onclick="generateCaptcha()" class="text-gray-400 hover:text-white"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DETAIL BANK -->
+                <div class="pt-2 border-t border-gray-800">
+                    <h4 class="text-purple-400 font-bold text-sm">Detail Bank</h4>
+                    <p class="text-gray-400 mb-3 text-[11px]">Isi Rekening Bank Sekarang</p>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-gray-300 mb-1">Nama Rekening</label>
+                            <input type="text" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Pilih Bank</label>
+                            <select required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                                <option value="">-- Pilih Bank --</option>
+                                <option value="BCA">BCA</option>
+                                <option value="MANDIRI">MANDIRI</option>
+                                <option value="BNI">BNI</option>
+                                <option value="BRI">BRI</option>
+                                <option value="DANA">DANA</option>
+                                <option value="OVO">OVO</option>
+                                <option value="GOPAY">GOPAY</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-300 mb-1">Nomor Rekening</label>
+                            <input type="number" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CHECKBOX PERSETUJUAN -->
+                <div class="pt-2">
+                    <label class="flex items-start space-x-2 cursor-pointer">
+                        <input type="checkbox" required class="mt-0.5 accent-purple-600 rounded">
+                        <span class="text-[11px] text-gray-300 leading-snug">
+                            <strong class="text-red-500">Penting!</strong> Pastikan semua data yang telah anda isi sudah sesuai.<br>
+                            Saya sudah berumur 18 tahun keatas, dan telah menyetujui peraturan di MARVEL88
+                        </span>
+                    </label>
+                </div>
+
+                <!-- SUBMIT DAFTAR -->
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-lg text-sm shadow-lg transition mt-3">
+                    Daftar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         lucide.createIcons();
 
+        // Control Sidebar
         function toggleSidebar() {
             document.getElementById('sidebar-drawer').classList.toggle('hidden');
+        }
+
+        // Modals Controller
+        function openLoginModal() {
+            document.getElementById('modal-login').classList.remove('hidden');
+        }
+
+        function closeLoginModal() {
+            document.getElementById('modal-login').classList.add('hidden');
+        }
+
+        function openRegisterModal() {
+            generateCaptcha();
+            document.getElementById('modal-register').classList.remove('hidden');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('modal-register').classList.add('hidden');
+        }
+
+        function switchToRegister() {
+            closeLoginModal();
+            openRegisterModal();
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+            } else {
+                input.type = 'password';
+            }
+        }
+
+        let currentCaptcha = "";
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let res = '';
+            for(let i=0; i<4; i++) {
+                res += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            currentCaptcha = res;
+            document.getElementById('captcha-box').innerText = res;
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            if(username) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('is_logged_in', 'true');
+                alert("Berhasil masuk sebagai " + username);
+                closeLoginModal();
+                location.reload();
+            }
+        }
+
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const pass = document.getElementById('reg-password').value;
+            const confirmPass = document.getElementById('reg-confirm-password').value;
+            const captchaInput = document.getElementById('reg-captcha-input').value;
+            const username = document.getElementById('reg-username').value;
+
+            if(pass !== confirmPass) {
+                alert("Konfirmasi kata sandi tidak cocok!");
+                return;
+            }
+
+            if(captchaInput.toUpperCase() !== currentCaptcha) {
+                alert("Kode Captcha salah!");
+                generateCaptcha();
+                return;
+            }
+
+            localStorage.setItem('username', username);
+            localStorage.setItem('is_logged_in', 'true');
+            alert("Pendaftaran berhasil! Anda telah otomatis login.");
+            closeRegisterModal();
+            location.reload();
         }
 
         function showHome() {
@@ -243,6 +479,7 @@
             const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
             if(!isLoggedIn) {
                 alert("Silakan Masuk terlebih dahulu untuk melakukan Deposit!");
+                openLoginModal();
                 return;
             }
             document.getElementById('main-view').classList.add('hidden');
@@ -274,7 +511,6 @@
             window.open(chatUrl, '_blank');
         }
 
-        // FUNGSI LOGOUT (KELUAR AKUN)
         function keluarAkun() {
             if(confirm("Apakah Anda yakin ingin keluar dari akun?")) {
                 localStorage.setItem('is_logged_in', 'false');
@@ -283,18 +519,6 @@
             }
         }
 
-        // FUNGSI SIMULASI MASUK AKUN
-        function masukAkunSimulasi() {
-            const name = prompt("Masukkan Username Anda:", "yoga098");
-            if(name) {
-                localStorage.setItem('username', name);
-                localStorage.setItem('is_logged_in', 'true');
-                alert("Berhasil masuk sebagai " + name);
-                location.reload();
-            }
-        }
-
-        // MUAT TAMPILAN SESUAI STATUS LOGIN / LOGOUT
         function renderAuthView() {
             const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
             const username = localStorage.getItem('username') || 'yoga098';
@@ -307,7 +531,6 @@
             const sidebarAuthBtn = document.getElementById('sidebar-auth-button');
 
             if(isLoggedIn) {
-                // Tampilan saat LOGGED IN
                 btnLoggedIn.classList.remove('hidden');
                 btnLoggedOut.classList.add('hidden');
                 userProfileCard.classList.remove('hidden');
@@ -325,71 +548,70 @@
                     </button>
                 `;
             } else {
-                            // Tampilan saat LOGGED OUT
-            btnLoggedIn.classList.add('hidden');
-            btnLoggedOut.classList.remove('hidden');
-            userProfileCard.classList.add('hidden');
+                btnLoggedIn.classList.add('hidden');
+                btnLoggedOut.classList.remove('hidden');
+                userProfileCard.classList.add('hidden');
 
-            document.getElementById('sidebar-username').innerText = "Tamu";
-            document.getElementById('sidebar-balance').innerText = "Belum Masuk";
+                document.getElementById('sidebar-username').innerText = "Tamu";
+                document.getElementById('sidebar-balance').innerText = "Belum Masuk";
 
-            sidebarAuthBtn.innerHTML = `
-                <div class="flex space-x-2">
-                    <button onclick="masukAkunSimulasi()" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs">Masuk</button>
-                    <button onclick="masukAkunSimulasi()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-2.5 rounded-xl font-bold text-xs">Daftar</button>
-                </div>
-            `;
-        }
-        lucide.createIcons();
-    }
-
-    function loadAdminSettings() {
-        const marquee = localStorage.getItem('app_marquee');
-        const banner = localStorage.getItem('app_banner_img');
-        if(marquee) document.getElementById('marquee-text-display').innerText = marquee;
-        if(banner) document.getElementById('banner-img').src = banner;
-
-        renderAuthView();
-        changeCategory('slot');
-    }
-
-    function changeCategory(cat) {
-        document.getElementById('current-category-title').innerText = 'GAMES ' + cat.toUpperCase();
-        
-        document.querySelectorAll('.cat-btn').forEach(btn => {
-            btn.classList.remove('border-b-2', 'border-purple-500', 'text-purple-400');
-            btn.classList.add('text-gray-400');
-        });
-        const activeBtn = document.getElementById('tab-' + cat);
-        if(activeBtn) {
-            activeBtn.classList.remove('text-gray-400');
-            activeBtn.classList.add('border-b-2', 'border-purple-500', 'text-purple-400');
-        }
-
-        const games = JSON.parse(localStorage.getItem('app_games_' + cat) || '[]');
-        const gallery = document.getElementById('game-gallery');
-
-        if(games.length > 0) {
-            gallery.innerHTML = games.map(g => `
-                <div class="min-w-[130px] bg-[#2a2a30] rounded-xl overflow-hidden relative shadow-md">
-                    <div class="absolute top-1 left-1 bg-black/70 rounded-full p-1"><i data-lucide="play" class="w-3 h-3 text-white fill-current"></i></div>
-                    <div class="absolute top-1 right-1 bg-black/70 px-1 rounded text-[9px] font-bold text-white">BET 100</div>
-                    <img src="${g.img}" class="w-full h-28 object-cover">
-                    <div class="p-2 flex justify-between items-center bg-[#1e1e1e]">
-                        <p class="text-[10px] font-bold text-gray-200 truncate pr-1">${g.title}</p>
-                        <i data-lucide="star" class="w-3 h-3 text-gray-500 hover:text-yellow-400"></i>
+                sidebarAuthBtn.innerHTML = `
+                    <div class="flex space-x-2">
+                        <button onclick="openLoginModal()" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs">Masuk</button>
+                        <button onclick="openRegisterModal()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-2.5 rounded-xl font-bold text-xs">Daftar</button>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }
             lucide.createIcons();
-        } else {
-            gallery.innerHTML = `<div class="w-full bg-[#1e1e1e] p-6 rounded-xl border border-gray-800 text-center">
-                <p class="text-xs text-gray-400">Belum ada game di kategori <b>${cat}</b>.</p>
-            </div>`;
         }
-    }
 
-    loadAdminSettings();
-</script>
+        function loadAdminSettings() {
+            const marquee = localStorage.getItem('app_marquee');
+            const banner = localStorage.getItem('app_banner_img');
+            if(marquee) document.getElementById('marquee-text-display').innerText = marquee;
+            if(banner) document.getElementById('banner-img').src = banner;
+
+            renderAuthView();
+            changeCategory('slot');
+        }
+
+        function changeCategory(cat) {
+            document.getElementById('current-category-title').innerText = 'GAMES ' + cat.toUpperCase();
+            
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-purple-500', 'text-purple-400');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById('tab-' + cat);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('border-b-2', 'border-purple-500', 'text-purple-400');
+            }
+
+            const games = JSON.parse(localStorage.getItem('app_games_' + cat) || '[]');
+            const gallery = document.getElementById('game-gallery');
+
+            if(games.length > 0) {
+                gallery.innerHTML = games.map(g => `
+                    <div class="min-w-[130px] bg-[#2a2a30] rounded-xl overflow-hidden relative shadow-md">
+                        <div class="absolute top-1 left-1 bg-black/70 rounded-full p-1"><i data-lucide="play" class="w-3 h-3 text-white fill-current"></i></div>
+                        <div class="absolute top-1 right-1 bg-black/70 px-1 rounded text-[9px] font-bold text-white">BET 100</div>
+                        <img src="${g.img}" class="w-full h-28 object-cover">
+                        <div class="p-2 flex justify-between items-center bg-[#1e1e1e]">
+                            <p class="text-[10px] font-bold text-gray-200 truncate pr-1">${g.title}</p>
+                            <i data-lucide="star" class="w-3 h-3 text-gray-500 hover:text-yellow-400"></i>
+                        </div>
+                    </div>
+                `).join('');
+                lucide.createIcons();
+            } else {
+                gallery.innerHTML = `<div class="w-full bg-[#1e1e1e] p-6 rounded-xl border border-gray-800 text-center">
+                    <p class="text-xs text-gray-400">Belum ada game di kategori <b>${cat}</b>.</p>
+                </div>`;
+            }
+        }
+
+        loadAdminSettings();
+    </script>
 </body>
 </html>
