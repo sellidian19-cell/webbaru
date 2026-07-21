@@ -13,16 +13,16 @@
         .animate-marquee { display: inline-block; animation: marquee 15s linear infinite; }
     </style>
 </head>
-<body class="bg-black text-white font-sans selection:bg-purple-500">
+<body class="bg-[#121212] text-white font-sans selection:bg-purple-500">
 
     <div class="flex justify-center min-h-screen">
-        <div class="w-full max-w-md bg-[#121212] h-screen overflow-y-auto overflow-x-hidden relative shadow-2xl flex flex-col">
+        <div class="w-full max-w-md bg-[#121212] min-h-screen relative shadow-2xl flex flex-col">
             
             <!-- HEADER LOGO & PILIHAN NAVIGASI -->
-            <header class="sticky top-0 z-30 bg-[#1a1a1a] border-b border-gray-800">
+            <header class="sticky top-0 z-30 bg-[#1a1a1a] border-b border-gray-800 shadow-md">
                 <div class="flex justify-between items-center px-4 py-3">
                     <!-- Tombol Menu Titik Tiga / Hamburger -->
-                    <button onclick="toggleSidebar()" class="bg-purple-600 p-2 rounded-lg hover:bg-purple-700 transition">
+                    <button onclick="toggleSidebar()" class="bg-gradient-to-br from-purple-600 to-purple-800 p-2 rounded-lg shadow-lg">
                         <i data-lucide="menu" class="w-6 h-6 text-white"></i>
                     </button>
                     
@@ -37,34 +37,34 @@
                     </div>
                     
                     <div class="flex space-x-3">
-                        <i data-lucide="search" class="w-6 h-6 text-gray-400"></i>
-                        <i data-lucide="bell" class="w-6 h-6 text-gray-400"></i>
+                        <i data-lucide="search" class="w-6 h-6 text-gray-300"></i>
+                        <i data-lucide="bell" class="w-6 h-6 text-gray-300"></i>
                     </div>
                 </div>
 
                 <!-- Category Tabs -->
                 <div class="flex overflow-x-auto hide-scrollbar px-2 py-2 bg-[#1a1a1a]">
-                    <button onclick="changeCategory('sports')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Sports</button>
-                    <button onclick="changeCategory('poker')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Poker</button>
-                    <button onclick="changeCategory('casino')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Casino</button>
-                    <button onclick="changeCategory('togel')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Togel</button>
-                    <button onclick="changeCategory('slot')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium border-b-2 border-purple-500 text-purple-400">Slot</button>
+                    <button id="tab-sports" onclick="changeCategory('sports')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Sports</button>
+                    <button id="tab-poker" onclick="changeCategory('poker')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Poker</button>
+                    <button id="tab-casino" onclick="changeCategory('casino')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Casino</button>
+                    <button id="tab-togel" onclick="changeCategory('togel')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Togel</button>
+                    <button id="tab-slot" onclick="changeCategory('slot')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium border-b-2 border-purple-500 text-purple-400">Slot</button>
                 </div>
             </header>
 
             <!-- BERANDA UTAMA (HOME) -->
-            <main id="main-view" class="flex-1 pb-24">
+            <main id="main-view" class="flex-1 pb-24 overflow-y-auto">
                 <!-- Dynamic Banner -->
                 <div class="relative w-full h-48 bg-gray-800">
-                    <img id="banner-img" src="https://images.unsplash.com/photo-1518972553018-8686121b67cc?auto=format&fit=crop&q=80&w=800&h=400" class="w-full h-full object-cover opacity-80" />
+                    <img id="banner-img" src="https://images.unsplash.com/photo-1518972553018-8686121b67cc?auto=format&fit=crop&q=80&w=800&h=400" class="w-full h-full object-cover opacity-90" />
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent flex flex-col justify-end p-4">
-                        <h2 class="text-3xl font-black text-yellow-500 text-center">RP 120,000,000</h2>
-                        <p class="text-center text-sm font-bold text-white mb-2">MAIN SEKARANG</p>
+                        <h2 class="text-3xl font-black text-yellow-500 text-center drop-shadow-lg">RP 120,000,000</h2>
+                        <p class="text-center text-sm font-bold text-white mb-2 drop-shadow-md">MAIN SEKARANG</p>
                     </div>
                 </div>
 
                 <!-- Marquee Text -->
-                <div class="bg-[#1a1a1a] px-4 py-2 flex items-center border-y border-gray-800">
+                <div class="bg-[#1a1a1a] px-4 py-2 flex items-center border-y border-gray-800 shadow-inner">
                     <i data-lucide="volume-2" class="w-4 h-4 text-gray-400 mr-3 flex-shrink-0"></i>
                     <div class="overflow-hidden whitespace-nowrap w-full">
                         <div id="marquee-text-display" class="animate-marquee text-xs text-gray-300">
@@ -73,17 +73,63 @@
                     </div>
                 </div>
 
-                <!-- Dynamic Game Gallery Container -->
-                <div class="p-4">
-                    <h3 id="current-category-title" class="text-yellow-500 font-bold uppercase text-sm mb-3">Games Slot</h3>
-                    <div id="game-gallery" class="grid grid-cols-2 gap-3">
-                        <!-- Loaded dynamically -->
+                <!-- TOMBOL DEPOSIT & TRANSAKSI -->
+                <div class="flex space-x-3 px-4 py-3">
+                    <button onclick="openDepoPage()" class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Deposit</button>
+                    <button class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Transaksi</button>
+                </div>
+
+                <!-- KOTAK INFORMASI AKUN (Sesuai Foto 2) -->
+                <div class="mx-4 mb-5 bg-[#1e1e1e] rounded-xl p-4 flex justify-between items-center shadow-lg border border-gray-800">
+                    <div class="flex items-center space-x-4">
+                        <!-- Badge Iron -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 h-12 bg-gray-500 rounded-full border-2 border-gray-400 flex items-center justify-center shadow-inner">
+                                <i data-lucide="star" class="w-6 h-6 text-white fill-current"></i>
+                            </div>
+                            <span class="text-[11px] text-gray-300 mt-1 font-semibold">Iron</span>
+                        </div>
+                        <!-- Nama & Saldo -->
+                        <div>
+                            <h3 class="text-white font-bold text-sm tracking-wide" id="home-username">yoga098</h3>
+                            <div class="flex items-center space-x-3 mt-1.5">
+                                <p class="text-emerald-400 font-bold text-[15px]" id="home-balance">Rp 2.000</p>
+                                <button class="text-white hover:text-gray-300"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                                <button class="text-white hover:text-gray-300"><i data-lucide="crosshair" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Ikon Peti Harta -->
+                    <div class="w-12 h-12 bg-yellow-600/20 rounded-lg flex items-center justify-center text-3xl border border-yellow-600/30">
+                        🎁
+                    </div>
+                </div>
+
+                <!-- Dynamic Game Gallery Container (Horizontal Scroll) -->
+                <div class="px-4">
+                    <div class="flex justify-between items-end mb-3">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="crown" class="w-5 h-5 text-yellow-500 fill-current"></i>
+                            <div>
+                                <h3 id="current-category-title" class="text-yellow-500 font-bold text-sm uppercase">ROYAL CASHBACK</h3>
+                                <p class="text-[9px] text-yellow-500/70">( SILAKAN PILIH GAME )</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="bg-gray-800 p-1 rounded-full text-yellow-500"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                            <button class="bg-gray-800 p-1 rounded-full text-yellow-500"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Tempat Game Dimunculkan -->
+                    <div id="game-gallery" class="flex overflow-x-auto gap-3 pb-4 hide-scrollbar">
+                        <!-- Loaded dynamically via JavaScript -->
                     </div>
                 </div>
             </main>
 
-            <!-- HALAMAN GABUNGAN DEPOSIT & PENARIKAN (FOTO 1) -->
-            <div id="deposit-withdraw-view" class="hidden flex-1 pb-24 bg-[#121212]">
+            <!-- HALAMAN GABUNGAN DEPOSIT & PENARIKAN -->
+            <div id="deposit-withdraw-view" class="hidden flex-1 pb-24 bg-[#121212] overflow-y-auto">
                 <!-- Tab Header Deposit / Penarikan -->
                 <div class="flex border-b border-gray-800">
                     <button id="tab-depo-btn" onclick="switchDepoTab('depo')" class="flex-1 py-3 text-center font-bold bg-purple-700 text-white">Deposit</button>
@@ -91,7 +137,6 @@
                 </div>
 
                 <div class="p-4 space-y-4">
-                    <!-- Balance Card -->
                     <div class="bg-[#1e1e1e] p-4 rounded-xl border border-gray-800">
                         <p class="text-xs text-gray-400">Dompet Utama</p>
                         <p id="depo-page-balance" class="text-2xl font-black text-white mt-1">Rp 2.000 <i data-lucide="refresh-cw" class="inline w-4 h-4 cursor-pointer"></i></p>
@@ -100,26 +145,17 @@
                     <!-- Deposit Mode -->
                     <div id="depo-section">
                         <h4 class="text-purple-400 text-sm font-bold mb-3">Pilih Metode Deposit</h4>
-                        
-                        <!-- Auto / Transfer -->
                         <div class="flex space-x-4 mb-4 border-b border-gray-800 pb-2">
                             <button class="flex items-center space-x-2 text-xs font-bold text-gray-400"><i data-lucide="building"></i><span>Auto Bank</span></button>
                             <button class="flex items-center space-x-2 text-xs font-bold text-purple-400 border-b-2 border-purple-500 pb-2"><i data-lucide="building-2"></i><span>Transfer Bank</span></button>
                         </div>
-
-                        <!-- Bank Grid (Rendered from Admin Payments) -->
                         <p class="text-xs font-semibold text-gray-300 mb-2">Pilih Bank / E-Wallet:</p>
                         <div id="payment-methods-grid" class="grid grid-cols-3 gap-2"></div>
-
-                        <!-- Promosi -->
+                        
                         <p class="text-xs font-semibold text-gray-300 mt-4 mb-2">Pilih Promosi:</p>
                         <div class="grid grid-cols-2 gap-2">
-                            <div class="border border-purple-500 bg-purple-900/20 p-3 rounded-lg text-center cursor-pointer">
-                                <span class="text-xs font-bold text-purple-300">NO BONUS</span>
-                            </div>
-                            <div class="border border-gray-800 bg-gray-900 p-2 rounded-lg text-center cursor-pointer">
-                                <span class="text-[10px] font-bold text-yellow-400">BONUS 100% NEW MEMBER</span>
-                            </div>
+                            <div class="border border-purple-500 bg-purple-900/20 p-3 rounded-lg text-center cursor-pointer"><span class="text-xs font-bold text-purple-300">NO BONUS</span></div>
+                            <div class="border border-gray-800 bg-gray-900 p-2 rounded-lg text-center cursor-pointer"><span class="text-[10px] font-bold text-yellow-400">BONUS 100% NEW MEMBER</span></div>
                         </div>
                     </div>
 
@@ -133,76 +169,84 @@
                 </div>
             </div>
 
-            <!-- SIDEBAR MENU TITIK TIGA / HAMBURGER (FOTO 6) -->
+            <!-- SIDEBAR MENU TITIK TIGA / HAMBURGER (Dengan Tombol Keluar) -->
             <div id="sidebar-drawer" class="fixed inset-0 bg-black/80 z-50 hidden flex">
-                <div class="w-4/5 max-w-xs bg-[#1a1a1a] h-full p-4 overflow-y-auto space-y-4 shadow-2xl">
-                    <!-- Profile header -->
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
-                                <i data-lucide="user" class="w-6 h-6"></i>
+                <div class="w-4/5 max-w-xs bg-[#1a1a1a] h-full p-4 overflow-y-auto space-y-4 shadow-2xl flex flex-col justify-between">
+                    <div>
+                        <!-- Profile header -->
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
+                                    <i data-lucide="user" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm" id="sidebar-username">yoga098</h4>
+                                    <p id="sidebar-balance" class="text-xs text-emerald-400 font-bold">Rp 2.000</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-sm">yoga098</h4>
-                                <p id="sidebar-balance" class="text-xs text-emerald-400 font-bold">Rp 2.000</p>
+                            <button onclick="toggleSidebar()" class="text-gray-400"><i data-lucide="x"></i></button>
+                        </div>
+
+                        <!-- Panduan Pemain -->
+                        <button class="w-full mb-4 bg-gray-800 hover:bg-gray-700 p-3 rounded-xl flex items-center space-x-3 text-yellow-400 text-xs font-bold border border-gray-700">
+                            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+                            <span>Panduan Pemain</span>
+                        </button>
+
+                        <!-- Grid Navigation -->
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
+                                <i data-lucide="award" class="text-emerald-400"></i>
+                                <span>Bonus Saya</span>
+                            </div>
+                            <div onclick="openDepoPage(); toggleSidebar();" class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
+                                <i data-lucide="history" class="text-purple-400"></i>
+                                <span>Riwayat Transaksi</span>
+                            </div>
+                            <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
+                                <i data-lucide="users" class="text-blue-400"></i>
+                                <span>Sistem Referral</span>
+                            </div>
+                            <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
+                                <i data-lucide="gift" class="text-pink-400"></i>
+                                <span>Promosi</span>
+                            </div>
+                            <div onclick="openDepoPage(); toggleSidebar();" class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
+                                <i data-lucide="arrow-down-circle" class="text-green-400"></i>
+                                <span>Deposit</span>
+                            </div>
+                            <div onclick="openDepoPage(); toggleSidebar(); switchDepoTab('wd');" class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
+                                <i data-lucide="arrow-up-circle" class="text-red-400"></i>
+                                <span>Withdraw</span>
                             </div>
                         </div>
-                        <button onclick="toggleSidebar()" class="text-gray-400"><i data-lucide="x"></i></button>
                     </div>
 
-                    <!-- Panduan Pemain -->
-                    <button class="w-full bg-gray-800 hover:bg-gray-700 p-3 rounded-xl flex items-center space-x-3 text-yellow-400 text-xs font-bold border border-gray-700">
-                        <i data-lucide="lightbulb" class="w-4 h-4"></i>
-                        <span>Panduan Pemain</span>
+                    <!-- TOMBOL KELUAR AKUN (BARU) -->
+                    <button onclick="keluarAkun()" class="w-full mt-6 bg-red-600 hover:bg-red-700 p-3 rounded-xl flex items-center justify-center space-x-2 text-white text-sm font-bold shadow-lg transition">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        <span>Keluar Akun</span>
                     </button>
-
-                    <!-- Grid Navigation (Foto 6 Style) -->
-                    <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
-                            <i data-lucide="award" class="text-emerald-400"></i>
-                            <span>Bonus Saya</span>
-                        </div>
-                        <div onclick="openDepoPage()" class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
-                            <i data-lucide="history" class="text-purple-400"></i>
-                            <span>Riwayat Transaksi</span>
-                        </div>
-                        <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
-                            <i data-lucide="users" class="text-blue-400"></i>
-                            <span>Sistem Referral</span>
-                        </div>
-                        <div class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
-                            <i data-lucide="gift" class="text-pink-400"></i>
-                            <span>Promosi</span>
-                        </div>
-                        <div onclick="openDepoPage(); toggleSidebar();" class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
-                            <i data-lucide="arrow-down-circle" class="text-green-400"></i>
-                            <span>Deposit</span>
-                        </div>
-                        <div onclick="openDepoPage(); toggleSidebar();" class="bg-[#242424] p-3 rounded-xl flex flex-col items-center justify-center space-y-1 cursor-pointer">
-                            <i data-lucide="arrow-up-circle" class="text-red-400"></i>
-                            <span>Withdraw</span>
-                        </div>
-                    </div>
                 </div>
                 <div onclick="toggleSidebar()" class="flex-1"></div>
             </div>
 
             <!-- BOTTOM NAVIGATION -->
-            <nav class="fixed bottom-0 w-full max-w-md bg-gradient-to-r from-purple-900 to-indigo-900 rounded-t-2xl z-40">
+            <nav class="fixed bottom-0 w-full max-w-md bg-gradient-to-r from-purple-900 to-indigo-900 rounded-t-2xl z-40 border-t border-purple-500/30">
                 <div class="flex justify-around items-center px-2 py-3">
                     <button onclick="showHome()" class="flex flex-col items-center text-white">
                         <i data-lucide="home" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px]">Home</span>
                     </button>
-                    <button onclick="openDepoPage()" class="flex flex-col items-center text-purple-300 hover:text-white">
+                    <button onclick="openDepoPage()" class="flex flex-col items-center text-purple-300 hover:text-white transition">
                         <i data-lucide="wallet" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px]">Deposit</span>
                     </button>
-                    <button onclick="openLiveChat()" class="flex flex-col items-center text-purple-300 hover:text-white">
+                    <button onclick="openLiveChat()" class="flex flex-col items-center text-purple-300 hover:text-white transition">
                         <i data-lucide="message-square" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px]">Live Chat</span>
                     </button>
-                    <button onclick="toggleSidebar()" class="flex flex-col items-center text-purple-300 hover:text-white">
+                    <button onclick="toggleSidebar()" class="flex flex-col items-center text-purple-300 hover:text-white transition">
                         <i data-lucide="user" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px]">Akun</span>
                     </button>
@@ -212,7 +256,7 @@
         </div>
     </div>
 
-    <script>
+        <script>
         lucide.createIcons();
 
         function toggleSidebar() {
@@ -222,11 +266,14 @@
         function showHome() {
             document.getElementById('main-view').classList.remove('hidden');
             document.getElementById('deposit-withdraw-view').classList.add('hidden');
+            // Pastikan kategori slot yang aktif saat balik ke home
+            changeCategory('slot');
         }
 
         function openDepoPage() {
             document.getElementById('main-view').classList.add('hidden');
             document.getElementById('deposit-withdraw-view').classList.remove('hidden');
+            switchDepoTab('depo');
         }
 
         function switchDepoTab(type) {
@@ -253,8 +300,22 @@
             window.open(chatUrl, '_blank');
         }
 
-        // LOAD DATA DARI ADMIN
+        // FUNGSI KELUAR AKUN (BARU)
+        function keluarAkun() {
+            if(confirm("Apakah Anda yakin ingin keluar dari akun?")) {
+                localStorage.removeItem('username'); // Hapus data login semu
+                alert("Anda telah berhasil keluar.");
+                location.reload(); // Refresh halaman
+            }
+        }
+
+        // LOAD DATA DARI ADMIN & USER
         function loadAdminSettings() {
+            // Ambil nama user (jika pernah disetting, kalau tidak default 'yoga098')
+            const username = localStorage.getItem('username') || 'yoga098';
+            document.getElementById('home-username').innerText = username;
+            document.getElementById('sidebar-username').innerText = username;
+
             // Logo
             const logoText = localStorage.getItem('app_logo_text');
             const logoImg = localStorage.getItem('app_logo_img');
@@ -274,9 +335,10 @@
             const balance = parseFloat(localStorage.getItem('user_balance') || 2000);
             const formatted = 'Rp ' + balance.toLocaleString('id-ID');
             document.getElementById('depo-page-balance').innerText = formatted;
+            document.getElementById('home-balance').innerText = formatted;
             document.getElementById('sidebar-balance').innerText = formatted;
 
-            // Payments Grid
+            // Payments Grid (Deposit Page)
             const payments = JSON.parse(localStorage.getItem('app_payments') || '[]');
             const payGrid = document.getElementById('payment-methods-grid');
             if(payments.length > 0) {
@@ -290,28 +352,57 @@
                 payGrid.innerHTML = `<p class="text-xs text-gray-500 col-span-3">Belum ada bank diinput admin.</p>`;
             }
 
+            // PENTING: Paksa tampilan awal selalu di Slot!
             changeCategory('slot');
         }
 
+        // FUNGSI UBAH KATEGORI & RENDER GAME (Horizontal Scroll)
         function changeCategory(cat) {
-            document.getElementById('current-category-title').innerText = 'Games ' + cat;
+            document.getElementById('current-category-title').innerText = 'GAMES ' + cat.toUpperCase();
+            
+            // Atur warna Tab (Garis ungu berpindah)
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-purple-500', 'text-purple-400');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById('tab-' + cat);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('border-b-2', 'border-purple-500', 'text-purple-400');
+            }
+
             const games = JSON.parse(localStorage.getItem('app_games_' + cat) || '[]');
             const gallery = document.getElementById('game-gallery');
 
             if(games.length > 0) {
+                // Tampilan Card Horizontal Scroll
                 gallery.innerHTML = games.map(g => `
-                    <div class="bg-[#1e1e1e] border border-gray-800 rounded-xl overflow-hidden">
-                        <img src="${g.img}" class="w-full h-24 object-cover">
-                        <p class="text-xs font-bold p-2 text-center text-gray-200">${g.title}</p>
+                    <div class="min-w-[130px] bg-[#2a2a30] rounded-xl overflow-hidden relative shadow-md">
+                        <!-- Ikon Play di pojok kiri atas -->
+                        <div class="absolute top-1 left-1 bg-black/70 rounded-full p-1"><i data-lucide="play" class="w-3 h-3 text-white fill-current"></i></div>
+                        <!-- Label Bet -->
+                        <div class="absolute top-1 right-1 bg-black/70 px-1 rounded text-[9px] font-bold text-white">BET 100</div>
+                        
+                        <img src="${g.img}" class="w-full h-28 object-cover">
+                        
+                        <div class="p-2 flex justify-between items-center bg-[#1e1e1e]">
+                            <p class="text-[10px] font-bold text-gray-200 truncate pr-1">${g.title}</p>
+                            <i data-lucide="star" class="w-3 h-3 text-gray-500 hover:text-yellow-400"></i>
+                        </div>
                     </div>
                 `).join('');
+                lucide.createIcons(); // Render ulang ikon Lucide yang baru terbuat
             } else {
-                gallery.innerHTML = `<p class="text-xs text-gray-500 col-span-2 text-center py-6">Belum ada game di kategori ${cat}. Tambahkan melalui Dashboard Admin.</p>`;
+                // Jika admin belum upload game sama sekali
+                gallery.innerHTML = `<div class="w-full bg-[#1e1e1e] p-6 rounded-xl border border-gray-800 text-center">
+                    <p class="text-xs text-gray-400">Belum ada game di kategori <b>${cat}</b>.</p>
+                    <p class="text-[10px] text-gray-500 mt-1">Tambahkan gambar melalui Dashboard Admin.</p>
+                </div>`;
             }
         }
 
+        // Jalankan saat web pertama kali dibuka
         loadAdminSettings();
     </script>
 </body>
-    </html>
-    
+</html>
