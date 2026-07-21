@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -12,39 +11,30 @@
     <!-- Lucide Icons via CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Kustom CSS untuk Scrollbar & Animasi Teks Berjalan -->
+    <!-- Kustom CSS -->
     <style>
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
-        .animate-marquee {
-            display: inline-block;
-            animation: marquee 15s linear infinite;
-        }
+        .animate-marquee { display: inline-block; animation: marquee 15s linear infinite; }
     </style>
 </head>
 <body class="bg-black text-white font-sans">
 
-    <!-- Container Utama (Untuk simulasi tampilan Mobile) -->
+    <!-- Container Utama -->
     <div class="flex justify-center min-h-screen">
         <div class="w-full max-w-md bg-[#121212] h-screen overflow-y-auto overflow-x-hidden relative shadow-2xl flex flex-col">
             
             <!-- Header -->
-            <header class="sticky top-0 z-50 bg-[#1a1a1a] border-b border-gray-800">
+            <header class="sticky top-0 z-40 bg-[#1a1a1a] border-b border-gray-800">
                 <div class="flex justify-between items-center px-4 py-3">
                     <button class="bg-purple-600 p-2 rounded-lg hover:bg-purple-700 transition">
                         <i data-lucide="menu" class="w-6 h-6 text-white"></i>
                     </button>
                     
-                    <!-- Logo -->
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center">
                             <i data-lucide="crown" class="w-4 h-4 text-white"></i>
@@ -74,95 +64,110 @@
                 </div>
             </header>
 
-            <!-- Konten Utama -->
             <main class="flex-1 pb-24">
                 
                 <!-- Banner Promo -->
                 <div class="relative w-full h-48 bg-gray-800">
                     <img src="https://images.unsplash.com/photo-1518972553018-8686121b67cc?auto=format&fit=crop&q=80&w=800&h=400" alt="Promo Banner" class="w-full h-full object-cover opacity-80" />
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent flex flex-col justify-end p-4">
-                        <h2 class="text-3xl font-black text-yellow-500 drop-shadow-lg text-center leading-none">
-                            RP 120,000,000
-                        </h2>
+                        <h2 class="text-3xl font-black text-yellow-500 drop-shadow-lg text-center leading-none">RP 120,000,000</h2>
                         <p class="text-center text-sm font-bold text-white mb-2 drop-shadow-md">MAIN SEKARANG</p>
-                        
-                        <!-- Titik Navigasi Banner -->
                         <div class="flex justify-center space-x-1.5 pb-2">
                             <div class="h-1.5 rounded-full w-1.5 bg-gray-400 opacity-50"></div>
                             <div class="h-1.5 rounded-full w-1.5 bg-gray-400 opacity-50"></div>
                             <div class="h-1.5 rounded-full w-4 bg-purple-500"></div>
                             <div class="h-1.5 rounded-full w-1.5 bg-gray-400 opacity-50"></div>
                             <div class="h-1.5 rounded-full w-1.5 bg-gray-400 opacity-50"></div>
-                            <div class="h-1.5 rounded-full w-1.5 bg-gray-400 opacity-50"></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Teks Berjalan (Marquee) -->
                 <div class="bg-[#1a1a1a] px-4 py-2 flex items-center border-y border-gray-800">
                     <i data-lucide="volume-2" class="w-4 h-4 text-gray-400 mr-3 flex-shrink-0"></i>
                     <div class="overflow-hidden whitespace-nowrap w-full">
                         <div class="animate-marquee text-xs text-gray-300">
-                            sibel Yuk, coba sekarang! ★ Bebas Ribet Cari MARVEL88! - Sekarang cara deposit sangat mudah dan cepat!
+                            ★ Deposit dan Withdraw Mudah! - Minimal deposit 10 ribu. Bebas Ribet Cari MARVEL88! ★
                         </div>
                     </div>
                 </div>
 
-                <!-- Tombol Aksi -->
-                <div class="flex space-x-3 px-4 py-4">
-                    <button class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 text-white font-semibold py-3 rounded-xl shadow-lg hover:from-purple-600 hover:to-purple-400 transition transform active:scale-95">
-                        Deposit
-                    </button>
-                    <button class="flex-1 bg-gradient-to-r from-pink-600 to-purple-500 text-white font-semibold py-3 rounded-xl shadow-lg hover:from-pink-500 hover:to-purple-400 transition transform active:scale-95">
-                        Transaksi
-                    </button>
+                <!-- ========================================== -->
+                <!-- AREA DINAMIS: SEBELUM LOGIN (GUEST)        -->
+                <!-- ========================================== -->
+                <div id="guest-view" class="block">
+                    <!-- Tombol Masuk & Daftar -->
+                    <div class="flex space-x-3 px-4 py-4">
+                        <button onclick="showLoginModal()" class="flex-1 bg-gradient-to-r from-purple-500 to-purple-400 text-white font-semibold py-3 rounded-xl shadow-lg hover:brightness-110 transition">
+                            Masuk
+                        </button>
+                        <button onclick="showLoginModal()" class="flex-1 bg-gradient-to-r from-purple-500 to-purple-400 text-white font-semibold py-3 rounded-xl shadow-lg hover:brightness-110 transition">
+                            Daftar
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Kartu Profil Pengguna -->
-                <div class="mx-4 bg-[#1e1e1e] rounded-2xl p-4 flex justify-between items-center border border-gray-800 shadow-xl">
-                    <div class="flex items-center space-x-4">
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-gray-700 rounded-full border-2 border-gray-500 flex items-center justify-center mb-1">
-                                <i data-lucide="star" class="w-6 h-6 text-gray-300"></i>
+                <!-- ========================================== -->
+                <!-- AREA DINAMIS: SESUDAH LOGIN (USER)         -->
+                <!-- ========================================== -->
+                <div id="user-view" class="hidden">
+                    <!-- Tombol Deposit & Transaksi -->
+                    <div class="flex space-x-3 px-4 py-4">
+                        <button class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 text-white font-semibold py-3 rounded-xl shadow-lg hover:from-purple-600 hover:to-purple-400 transition transform active:scale-95">
+                            Deposit
+                        </button>
+                        <button class="flex-1 bg-gradient-to-r from-pink-600 to-purple-500 text-white font-semibold py-3 rounded-xl shadow-lg hover:from-pink-500 hover:to-purple-400 transition transform active:scale-95">
+                            Transaksi
+                        </button>
+                    </div>
+
+                    <!-- Kartu Profil Pengguna -->
+                    <div class="mx-4 bg-[#1e1e1e] rounded-2xl p-4 flex justify-between items-center border border-gray-800 shadow-xl mb-4 relative">
+                        <!-- Tombol Keluar (Logout) Kecil di Pojok Kanan Atas Profil -->
+                        <button onclick="logout()" class="absolute top-2 right-2 text-[10px] bg-red-900/50 text-red-300 px-2 py-1 rounded-md hover:bg-red-800 transition">
+                            Keluar
+                        </button>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-gray-700 rounded-full border-2 border-gray-500 flex items-center justify-center mb-1">
+                                    <i data-lucide="star" class="w-6 h-6 text-gray-300"></i>
+                                </div>
+                                <span class="text-xs text-gray-400 font-medium">Iron</span>
                             </div>
-                            <span class="text-xs text-gray-400 font-medium">Iron</span>
+                            
+                            <div>
+                                <h3 id="display-username" class="font-semibold text-lg text-gray-200">yoga098</h3>
+                                <div class="flex items-center space-x-3 mt-1">
+                                    <span class="text-emerald-400 font-bold tracking-wide">Rp. 2.00</span>
+                                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-white transition"></i>
+                                    <i data-lucide="crosshair" class="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-white transition"></i>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div>
-                            <h3 class="font-semibold text-lg text-gray-200">yoga098</h3>
-                            <div class="flex items-center space-x-3 mt-1">
-                                <span class="text-emerald-400 font-bold tracking-wide">Rp. 2.00</span>
-                                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-white transition"></i>
-                                <i data-lucide="crosshair" class="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-white transition"></i>
-                            </div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-yellow-600 to-yellow-400 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-900/20 mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                                <rect x="3" y="8" width="18" height="12" rx="2" ry="2"></rect>
+                                <path d="M3 12h18"></path>
+                                <path d="M9 8V6a3 3 0 0 1 3-3h0a3 3 0 0 1 3 3v2"></path>
+                                <circle cx="12" cy="15" r="1"></circle>
+                            </svg>
                         </div>
                     </div>
-                    
-                    <!-- Ikon Peti Harta Karun -->
-                    <div class="w-14 h-14 bg-gradient-to-br from-yellow-600 to-yellow-400 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-900/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
-                            <rect x="3" y="8" width="18" height="12" rx="2" ry="2"></rect>
-                            <path d="M3 12h18"></path>
-                            <path d="M9 8V6a3 3 0 0 1 3-3h0a3 3 0 0 1 3 3v2"></path>
-                            <circle cx="12" cy="15" r="1"></circle>
-                        </svg>
-                    </div>
                 </div>
+                <!-- ========================================== -->
 
-                <!-- Bagian Royal Cashback -->
-                <div class="mt-6 px-4">
+                <!-- Bagian Royal Cashback (Tetap tampil untuk umum) -->
+                <div class="mt-4 px-4">
                     <div class="flex justify-between items-center mb-3">
                         <div class="flex items-center space-x-2">
                             <i data-lucide="crown" class="w-5 h-5 text-yellow-500"></i>
                             <div>
                                 <h3 class="text-yellow-500 font-bold uppercase tracking-wider text-sm">Royal Cashback</h3>
-                                <p class="text-[10px] text-gray-500 uppercase">(July 16, 12:00 PM - July 30, 12:00 PM, GMT+7)</p>
+                                <p class="text-[10px] text-gray-500 uppercase">(July 16, 12:00 PM - July 30, 12:00 PM)</p>
                             </div>
                         </div>
                         <div class="flex space-x-2">
-                            <div class="w-6 h-6 rounded-full bg-yellow-600 flex items-center justify-center cursor-pointer">
-                                <i data-lucide="info" class="w-3.5 h-3.5 text-black"></i>
-                            </div>
                             <div class="w-6 h-6 rounded-full bg-yellow-600 flex items-center justify-center cursor-pointer">
                                 <i data-lucide="chevron-left" class="w-3.5 h-3.5 text-black"></i>
                             </div>
@@ -174,11 +179,10 @@
 
                     <!-- Daftar Game -->
                     <div class="flex overflow-x-auto hide-scrollbar space-x-3 pb-4">
-                        <!-- Game 1 -->
                         <div class="relative w-32 flex-shrink-0 bg-[#252525] rounded-xl overflow-hidden group cursor-pointer border border-gray-800">
                             <div class="relative h-24 w-full">
-                                <img src="https://images.unsplash.com/photo-1596515865251-6893663a8a37?auto=format&fit=crop&q=80&w=200&h=200" alt="Mahjong" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
-                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
+                                <img src="https://images.unsplash.com/photo-1596515865251-6893663a8a37?auto=format&fit=crop&q=80&w=200&h=200" alt="Mahjong" class="w-full h-full object-cover" />
+                                <div class="absolute inset-0 bg-black/40"></div>
                                 <div class="absolute top-1 left-1 bg-black/60 rounded-full p-1">
                                     <svg class="w-3 h-3 text-white fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
                                 </div>
@@ -190,11 +194,10 @@
                             </div>
                         </div>
                         
-                        <!-- Game 2 -->
                         <div class="relative w-32 flex-shrink-0 bg-[#252525] rounded-xl overflow-hidden group cursor-pointer border border-gray-800">
                             <div class="relative h-24 w-full">
-                                <img src="https://images.unsplash.com/photo-1517260739337-6799d239ce83?auto=format&fit=crop&q=80&w=200&h=200" alt="Tropical" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
-                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
+                                <img src="https://images.unsplash.com/photo-1517260739337-6799d239ce83?auto=format&fit=crop&q=80&w=200&h=200" alt="Tropical" class="w-full h-full object-cover" />
+                                <div class="absolute inset-0 bg-black/40"></div>
                                 <div class="absolute top-1 left-1 bg-black/60 rounded-full p-1">
                                     <svg class="w-3 h-3 text-white fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
                                 </div>
@@ -205,125 +208,151 @@
                                 <i data-lucide="star" class="w-3 h-3 text-gray-500 flex-shrink-0"></i>
                             </div>
                         </div>
-
-                        <!-- Game 3 -->
-                        <div class="relative w-32 flex-shrink-0 bg-[#252525] rounded-xl overflow-hidden group cursor-pointer border border-gray-800">
-                            <div class="relative h-24 w-full">
-                                <img src="https://images.unsplash.com/photo-1580234797602-22c37b4a6217?auto=format&fit=crop&q=80&w=200&h=200" alt="Avalon" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
-                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
-                                <div class="absolute top-1 left-1 bg-black/60 rounded-full p-1">
-                                    <svg class="w-3 h-3 text-white fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-                                </div>
-                                <div class="absolute top-0 right-0 bg-black/80 text-white text-[10px] font-bold px-1.5 py-1 rounded-bl-lg">BET 100</div>
-                            </div>
-                            <div class="p-2 flex justify-between items-center">
-                                <p class="text-xs text-gray-300 truncate pr-2">Avalon Glory</p>
-                                <i data-lucide="star" class="w-3 h-3 text-gray-500 flex-shrink-0"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian Game Favorit -->
-                <div class="mt-2 px-4 mb-6">
-                    <div class="flex justify-between items-center mb-3">
-                        <div class="flex items-center space-x-2">
-                            <i data-lucide="star" class="w-4 h-4 text-gray-400 fill-current"></i>
-                            <h3 class="text-gray-300 font-semibold text-sm">Favorite Games</h3>
-                        </div>
-                        <div class="flex space-x-2">
-                            <div class="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-700">
-                                <i data-lucide="chevron-left" class="w-3.5 h-3.5 text-gray-400"></i>
-                            </div>
-                            <div class="w-6 h-6 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer hover:bg-gray-700">
-                                <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-gray-400"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Daftar Game Favorit -->
-                    <div class="flex overflow-x-auto hide-scrollbar space-x-3 pb-2">
-                        <!-- Fav Game 1 -->
-                        <div class="relative w-32 flex-shrink-0 bg-[#252525] rounded-xl overflow-hidden group cursor-pointer border border-gray-800">
-                            <div class="relative h-24 w-full">
-                                <img src="https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?auto=format&fit=crop&q=80&w=200&h=200" alt="Spaceman" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
-                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
-                            </div>
-                            <div class="p-2 flex justify-between items-center">
-                                <p class="text-xs text-gray-300 truncate pr-2">Spaceman</p>
-                                <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-current flex-shrink-0"></i>
-                            </div>
-                        </div>
-                        
-                        <!-- Fav Game 2 -->
-                        <div class="relative w-32 flex-shrink-0 bg-[#252525] rounded-xl overflow-hidden group cursor-pointer border border-gray-800">
-                            <div class="relative h-24 w-full">
-                                <img src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=80&w=200&h=200" alt="Anubis" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
-                                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
-                            </div>
-                            <div class="p-2 flex justify-between items-center">
-                                <p class="text-xs text-gray-300 truncate pr-2">Fury of Anubis</p>
-                                <i data-lucide="star" class="w-3 h-3 text-yellow-500 fill-current flex-shrink-0"></i>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </main>
 
-            <!-- Navigasi Bawah (Bottom Navigation) -->
-            <nav class="fixed bottom-0 w-full max-w-md bg-gradient-to-r from-purple-900 to-indigo-900 rounded-t-2xl shadow-[0_-5px_20px_rgba(0,0,0,0.5)] z-50">
+            <!-- Navigasi Bawah -->
+            <nav class="fixed bottom-0 w-full max-w-md bg-gradient-to-r from-purple-900 to-indigo-900 rounded-t-2xl shadow-[0_-5px_20px_rgba(0,0,0,0.5)] z-40">
                 <div class="flex justify-around items-center px-2 py-3" id="bottom-nav">
-                    
-                    <button class="nav-btn active flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-white bg-white/10 scale-110" data-tab="home">
+                    <button class="nav-btn active flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-white bg-white/10 scale-110">
                         <i data-lucide="home" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px] font-medium">Home</span>
                     </button>
-                    
-                    <button class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-purple-300 hover:text-white" data-tab="deposit">
+                    <button class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-purple-300 hover:text-white">
                         <i data-lucide="wallet" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px] font-medium">Deposit</span>
                     </button>
-                    
-                    <button class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-purple-300 hover:text-white" data-tab="chat">
+                    <button class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-purple-300 hover:text-white">
                         <i data-lucide="message-square" class="w-5 h-5 mb-1"></i>
-                        <span class="text-[10px] font-medium">Live Chat<
-                                                                         </span>
+                        <span class="text-[10px] font-medium">Live Chat</span>
                     </button>
-                    
-                    <button class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-purple-300 hover:text-white" data-tab="akun">
+                    <button class="nav-btn flex flex-col items-center p-2 rounded-xl transition-all duration-300 text-purple-300 hover:text-white">
                         <i data-lucide="user" class="w-5 h-5 mb-1"></i>
                         <span class="text-[10px] font-medium">Akun</span>
                     </button>
-                    
                 </div>
             </nav>
             
         </div>
     </div>
 
-    <!-- Script Inisialisasi -->
+    <!-- ========================================== -->
+    <!-- MODAL POPUP LOGIN / DAFTAR                 -->
+    <!-- ========================================== -->
+    <div id="login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4">
+        <div class="bg-[#1a1a1a] border border-gray-800 w-full max-w-sm rounded-2xl p-6 shadow-2xl relative animate-[fadeIn_0.3s_ease-out]">
+            <!-- Tombol Tutup (X) -->
+            <button onclick="hideLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                </div>
+                <h2 class="text-xl font-bold text-white">Masuk ke MARVEL88</h2>
+                <p class="text-xs text-gray-400 mt-1">Silakan masukkan detail akun Anda.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <input type="text" id="username-input" class="w-full bg-[#121212] border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-purple-500 transition" placeholder="Username (contoh: yoga098)">
+                </div>
+                <div>
+                    <input type="password" id="password-input" class="w-full bg-[#121212] border border-gray-700 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-purple-500 transition" placeholder="Password">
+                </div>
+                <button onclick="prosesLogin()" class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white font-bold py-3 rounded-lg shadow-lg hover:from-purple-500 hover:to-purple-400 transition mt-2">
+                    Masuk Sekarang
+                </button>
+            </div>
+            
+            <p class="text-center text-xs text-gray-500 mt-6">Belum punya akun? <a href="#" class="text-purple-400 font-semibold hover:underline">Daftar disini</a></p>
+        </div>
+    </div>
+    <!-- ========================================== -->
+
+    <!-- Script Inisialisasi & Logika Login -->
     <script>
-        // 1. Merender Icon Lucide
-        lucide.createIcons();
+    // 1. Merender Icon Lucide
+    lucide.createIcons();
 
-        // 2. Logika untuk Navigasi Bawah (Tab Aktif)
-        const navButtons = document.querySelectorAll('.nav-btn');
-
-        navButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Reset semua tombol ke style default (tidak aktif)
-                navButtons.forEach(b => {
-                    b.classList.remove('text-white', 'bg-white/10', 'scale-110');
-                    b.classList.add('text-purple-300');
-                });
-
-                // Tambahkan style aktif ke tombol yang diklik
-                btn.classList.remove('text-purple-300');
-                btn.classList.add('text-white', 'bg-white/10', 'scale-110');
+    // 2. Logika Navigasi Bawah
+    const navButtons = document.querySelectorAll('.nav-btn');
+    navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            navButtons.forEach(b => {
+                b.classList.remove('text-white', 'bg-white/10', 'scale-110');
+                b.classList.add('text-purple-300');
             });
+            btn.classList.remove('text-purple-300');
+            btn.classList.add('text-white', 'bg-white/10', 'scale-110');
         });
-    </script>
+    });
+
+    // 3. LOGIKA SIMULASI LOGIN
+    const guestView = document.getElementById('guest-view');
+    const userView = document.getElementById('user-view');
+    const loginModal = document.getElementById('login-modal');
+    const displayUsername = document.getElementById('display-username');
+
+    // Fungsi mengecek status login dari memory browser
+    function cekStatusLogin() {
+        const status = localStorage.getItem('isLoggedIn');
+        const savedName = localStorage.getItem('username');
+
+        if (status === 'true') {
+            // Tampilan JIKA SUDAH LOGIN
+            guestView.classList.replace('block', 'hidden');
+            userView.classList.replace('hidden', 'block');
+            
+            // Ubah nama profil jika user mengisi nama saat login
+            if (savedName) {
+                displayUsername.innerText = savedName;
+            }
+        } else {
+            // Tampilan JIKA BELUM LOGIN
+            guestView.classList.replace('hidden', 'block');
+            userView.classList.replace('block', 'hidden');
+        }
+    }
+
+    // Menampilkan popup modal
+    function showLoginModal() {
+        loginModal.classList.remove('hidden');
+    }
+
+    // Menyembunyikan popup modal
+    function hideLoginModal() {
+        loginModal.classList.add('hidden');
+    }
+
+    // Fungsi saat tombol "Masuk Sekarang" diklik
+    function prosesLogin() {
+        const inputName = document.getElementById('username-input').value;
+        
+        // Simpan status ke browser memory
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        if(inputName.trim() !== '') {
+            localStorage.setItem('username', inputName);
+        } else {
+            localStorage.setItem('username', 'yoga098'); // Nama default jika kosong
+        }
+
+        hideLoginModal(); // Tutup popup
+        cekStatusLogin(); // Perbarui tampilan
+    }
+
+    // Fungsi Logout (Keluar)
+    function logout() {
+        localStorage.setItem('isLoggedIn', 'false');
+        localStorage.removeItem('username');
+        cekStatusLogin();
+    }
+
+    // Jalankan pengecekan setiap web dibuka / direfresh
+    cekStatusLogin();
+</script>
 </body>
 </html>
-
-
