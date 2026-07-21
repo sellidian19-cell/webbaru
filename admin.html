@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MARVEL88</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen">
+
+    <!-- Header Admin -->
+    <header class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 bg-purple-600 rounded-lg flex items-center justify-center font-bold text-xl">A</div>
+            <h1 class="text-xl font-bold text-purple-400">Dashboard Control Admin</h1>
+        </div>
+        <a href="index.html" target="_blank" class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-semibold transition">Lihat Website Utama ↗</a>
+    </header>
+
+    <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+
+        <!-- Sidebar Navigation Admin -->
+        <div class="space-y-2">
+            <button onclick="switchTab('branding')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-purple-900/50 text-purple-300 font-semibold flex items-center space-x-3 border border-purple-500">
+                <i data-lucide="settings"></i> <span>Pengaturan Umum & Logo</span>
+            </button>
+            <button onclick="switchTab('banner')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold flex items-center space-x-3">
+                <i data-lucide="image"></i> <span>Iklan & Running Text</span>
+            </button>
+            <button onclick="switchTab('payments')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold flex items-center space-x-3">
+                <i data-lucide="credit-card"></i> <span>Metode Pembayaran</span>
+            </button>
+            <button onclick="switchTab('games')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold flex items-center space-x-3">
+                <i data-lucide="gamepad-2"></i> <span>Kelola Kategori Game</span>
+            </button>
+            <button onclick="switchTab('users')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold flex items-center space-x-3">
+                <i data-lucide="users"></i> <span>Kelola Member & Saldo</span>
+            </button>
+            <button onclick="switchTab('chat')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold flex items-center space-x-3">
+                <i data-lucide="message-square"></i> <span>Live Chat & Playstore URL</span>
+            </button>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="md:col-span-3 bg-gray-800 p-6 rounded-2xl border border-gray-700">
+
+            <!-- TAB 1: BRANDING & LOGO -->
+            <div id="tab-branding" class="tab-content space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Pengaturan Logo & Tampilan</h2>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Nama Brand App / Teks Logo</label>
+                    <input type="text" id="admin-logo-text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Contoh: MARVEL88">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Upload Foto Logo kustom (Opsional)</label>
+                    <input type="file" id="admin-logo-file" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                </div>
+                <button onclick="saveBranding()" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold">Simpan Logo</button>
+            </div>
+
+            <!-- TAB 2: IKLAN & RUNNING TEXT -->
+            <div id="tab-banner" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Kelola Banner Iklan & Teks Berjalan</h2>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Ganti Tulisan Berjalan (Running Text)</label>
+                    <input type="text" id="admin-marquee-text" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="★ Deposit & Withdraw Cepat! Minimal deposit 10rb ★">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Upload Banner Iklan Beranda</label>
+                    <input type="file" id="admin-banner-file" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                </div>
+                <button onclick="saveBanner()" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold">Update Banner & Teks</button>
+            </div>
+
+            <!-- TAB 3: METODE PEMBAYARAN -->
+            <div id="tab-payments" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Tambah Bank / E-Wallet Deposit</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" id="pay-name" class="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Nama Bank/E-Wallet (BCA/QRIS/DANA)">
+                    <input type="file" id="pay-logo" accept="image/*" class="bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                </div>
+                <button onclick="addPayment()" class="bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-xl font-bold">Tambah Metode Pembayaran</button>
+                
+                <h3 class="font-bold pt-4">Daftar Metode Aktif:</h3>
+                <div id="payment-list" class="grid grid-cols-3 gap-3"></div>
+            </div>
+
+            <!-- TAB 4: KELOLA GAME -->
+            <div id="tab-games" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Tambah Permainan per Kategori</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="game-category" class="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white">
+                        <option value="slot">Slot</option>
+                        <option value="togel">Togel</option>
+                        <option value="casino">Casino</option>
+                        <option value="poker">Poker</option>
+                        <option value="sports">Sports</option>
+                    </select>
+                    <input type="text" id="game-title" class="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="Nama Game / Provider">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2">Upload Gambar Game</label>
+                    <input type="file" id="game-image" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                </div>
+                <button onclick="addGame()" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold">Tambah Game Ke Kategori</button>
+            </div>
+
+            <!-- TAB 5: KELOLA MEMBER & SALDO -->
+            <div id="tab-users" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Kelola Member & Tambah/Kurang Saldo</h2>
+                <div class="bg-gray-900 p-4 rounded-xl border border-gray-700 space-y-3">
+                    <p class="text-sm text-gray-400">User Terdaftar Saat Ini: <strong class="text-white" id="user-info-name">yoga098</strong></p>
+                    <p class="text-sm text-gray-400">No. HP: <span class="text-white">081234567890</span> | Email: <span class="text-white">user@marvel88.com</span></p>
+                    <p class="text-sm text-gray-400">Saldo Utama: <strong class="text-emerald-400 text-lg" id="user-info-balance">Rp 2.000</strong></p>
+                </div>
+
+                <div class="flex space-x-3">
+                    <input type="number" id="adjust-amount" class="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white flex-1" placeholder="Jumlah Nominal Saldo">
+                    <button onclick="updateBalance('add')" class="bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-xl font-bold">+ Tambah Saldo</button>
+                    <button onclick="updateBalance('subtract')" class="bg-red-600 hover:bg-red-700 px-6 py-3 rounded-xl font-bold">- Kurangi Saldo</button>
+                </div>
+            </div>
+
+            <!-- TAB 6: LIVE CHAT URL -->
+            <div id="tab-chat" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Pengaturan Live Chat & Playstore URL</h2>
+                <div>
+                    <label class="block text-sm font-medium mb-2">URL Live Chat / Aplikasi Play Store</label>
+                    <input type="text" id="admin-chat-url" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-white" placeholder="https://tawk.to/xxx atau https://play.google.com/store/apps/xxx">
+                </div>
+                <button onclick="saveChatUrl()" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold">Simpan URL Live Chat</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tab-' + tabName).classList.remove('hidden');
+        }
+
+        // Simpan Branding
+        function saveBranding() {
+            const logoText = document.getElementById('admin-logo-text').value;
+            const logoFile = document.getElementById('admin-logo-file').files[0];
+
+            if(logoText) localStorage.setItem('app_logo_text', logoText);
+            if(logoFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('app_logo_img', e.target.result);
+                    alert("Logo foto berhasil diupload!");
+                };
+                reader.readAsDataURL(logoFile);
+            } else {
+                alert("Pengaturan logo diperbarui!");
+            }
+        }
+
+        // Simpan Banner & Running Text
+        function saveBanner() {
+            const marquee = document.getElementById('admin-marquee-text').value;
+            const bannerFile = document.getElementById('admin-banner-file').files[0];
+
+            if(marquee) localStorage.setItem('app_marquee', marquee);
+            if(bannerFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    localStorage.setItem('app_banner_img', e.target.result);
+                    alert("Banner & Teks berhasil diperbarui!");
+                };
+                reader.readAsDataURL(bannerFile);
+            } else {
+                alert("Teks berjalan diperbarui!");
+            }
+        }
+
+        // Tambah Metode Pembayaran
+        function addPayment() {
+            const name = document.getElementById('pay-name').value;
+            const file = document.getElementById('pay-logo').files[0];
+
+            if(!name || !file) return alert("Isi nama dan upload gambar logo bank!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                let currentPays = JSON.parse(localStorage.getItem('app_payments') || '[]');
+                currentPays.push({ name: name, logo: e.target.result });
+                localStorage.setItem('app_payments', JSON.stringify(currentPays));
+                alert("Metode pembayaran berhasil ditambahkan!");
+                renderPayments();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderPayments() {
+            const list = document.getElementById('payment-list');
+            let currentPays = JSON.parse(localStorage.getItem('app_payments') || '[]');
+            list.innerHTML = currentPays.map(p => `
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700 text-center">
+                    <img src="${p.logo}" class="h-8 mx-auto mb-2 object-contain">
+                    <span class="text-xs font-bold">${p.name}</span>
+                </div>
+            `).join('');
+        }
+
+        // Tambah Game
+        function addGame() {
+            const category = document.getElementById('game-category').value;
+            const title = document.getElementById('game-title').value;
+            const file = document.getElementById('game-image').files[0];
+
+            if(!title || !file) return alert("Isi nama game dan upload gambarnya!");
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                let games = JSON.parse(localStorage.getItem('app_games_' + category) || '[]');
+                games.push({ title: title, img: e.target.result });
+                localStorage.setItem('app_games_' + category, JSON.stringify(games));
+                alert("Game berhasil ditambahkan ke kategori " + category + "!");
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Saldo
+        function updateBalance(type) {
+            const amount = parseFloat(document.getElementById('adjust-amount').value || 0);
+            let current = parseFloat(localStorage.getItem('user_balance') || 2000);
+            
+            if(type === 'add') current += amount;
+            if(type === 'subtract') current = Math.max(0, current - amount);
+
+            localStorage.setItem('user_balance', current);
+            document.getElementById('user-info-balance').innerText = 'Rp ' + current.toLocaleString('id-ID');
+            alert("Saldo pengguna diperbarui!");
+        }
+
+        // Live Chat
+        function saveChatUrl() {
+            const url = document.getElementById('admin-chat-url').value;
+            if(url) {
+                localStorage.setItem('app_chat_url', url);
+                alert("URL Live Chat disimpan!");
+            }
+        }
+
+        renderPayments();
+    </script>
+</body>
+</html>
+
