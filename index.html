@@ -3,488 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MARVEL88</title>
+    <title>MARVEL88 - TW88</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-        .animate-marquee { display: inline-block; animation: marquee 15s linear infinite; }
-        
-        /* Background Stripe untuk Modal Login */
-        .bg-stripes-purple {
-            background-color: #1a092b;
-            background-image: repeating-linear-gradient(45deg, rgba(88, 28, 135, 0.25) 0, rgba(88, 28, 135, 0.25) 10px, transparent 0, transparent 20px);
-        }
     </style>
 </head>
-<body class="bg-[#121212] text-white font-sans selection:bg-purple-500">
+<body class="bg-[#121214] text-white min-h-screen font-sans pb-20 select-none">
 
-    <div class="flex justify-center min-h-screen">
-        <div class="w-full max-w-md bg-[#121212] min-h-screen relative shadow-2xl flex flex-col">
-            
-            <!-- HEADER LOGO & NAVIGASI -->
-            <header class="sticky top-0 z-30 bg-[#1a1a1a] border-b border-gray-800 shadow-md">
-                <div class="flex justify-between items-center px-4 py-3">
-                    <button onclick="toggleSidebar()" class="bg-gradient-to-br from-purple-600 to-purple-800 p-2 rounded-lg shadow-lg">
-                        <i data-lucide="menu" class="w-6 h-6 text-white"></i>
-                    </button>
-                    
-                    <div id="logo-container" class="flex items-center space-x-2">
-                        <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                            <i data-lucide="crown" class="w-4 h-4 text-white"></i>
-                        </div>
-                        <h1 id="logo-text-display" class="text-2xl font-black italic bg-gradient-to-r from-purple-400 to-white bg-clip-text text-transparent">
-                            MARVEL<span class="text-white">88</span>
-                        </h1>
-                    </div>
-                    
-                    <div class="flex space-x-3">
-                        <i data-lucide="search" class="w-6 h-6 text-gray-300"></i>
-                        <i data-lucide="bell" class="w-6 h-6 text-gray-300"></i>
-                    </div>
+    <!-- HEADER TOP -->
+    <header class="sticky top-0 z-40 bg-[#1e1e24] border-b border-gray-800">
+        <div class="flex items-center justify-between px-4 py-3">
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleSidebar()" class="p-2 bg-purple-700 hover:bg-purple-600 rounded-lg text-white">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+                <div class="flex items-center space-x-2 cursor-pointer" onclick="showHome()">
+                    <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center font-bold text-lg">M</div>
+                    <span class="text-xl font-black italic tracking-wider bg-gradient-to-r from-purple-400 to-white bg-clip-text text-transparent">MARVEL88</span>
                 </div>
+            </div>
+            <div class="flex items-center space-x-2" id="header-auth-buttons">
+                <!-- Dynamically filled by JS -->
+            </div>
+        </div>
 
-                <!-- Category Tabs -->
-                <div class="flex overflow-x-auto hide-scrollbar px-2 py-2 bg-[#1a1a1a]">
-                    <button id="tab-sports" onclick="changeCategory('sports')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Sports</button>
-                    <button id="tab-poker" onclick="changeCategory('poker')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Poker</button>
-                    <button id="tab-casino" onclick="changeCategory('casino')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Casino</button>
-                    <button id="tab-togel" onclick="changeCategory('togel')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium text-gray-400">Togel</button>
-                    <button id="tab-slot" onclick="changeCategory('slot')" class="cat-btn whitespace-nowrap px-4 py-2 text-sm font-medium border-b-2 border-purple-500 text-purple-400">Slot</button>
-                </div>
-            </header>
+        <!-- CATEGORY NAVIGATION SCROLL -->
+        <div class="flex overflow-x-auto space-x-4 px-4 py-2 bg-[#18181c] text-xs font-semibold hide-scrollbar border-t border-gray-800/50">
+            <button onclick="changeCategory('sports')" class="cat-btn whitespace-nowrap text-gray-400 py-1" id="tab-sports">Sports</button>
+            <button onclick="changeCategory('poker')" class="cat-btn whitespace-nowrap text-gray-400 py-1" id="tab-poker">Poker</button>
+            <button onclick="changeCategory('casino')" class="cat-btn whitespace-nowrap text-gray-400 py-1" id="tab-casino">Casino</button>
+            <button onclick="changeCategory('togel')" class="cat-btn whitespace-nowrap text-gray-400 py-1" id="tab-togel">Togel</button>
+            <button onclick="changeCategory('slot')" class="cat-btn whitespace-nowrap text-purple-400 border-b-2 border-purple-500 py-1" id="tab-slot">Slot</button>
+            <button onclick="changeCategory('crash')" class="cat-btn whitespace-nowrap text-gray-400 py-1" id="tab-crash">Crash <span class="bg-red-600 text-[9px] text-white px-1 rounded ml-0.5">NEW</span></button>
+            <button onclick="changeCategory('fishing')" class="cat-btn whitespace-nowrap text-gray-400 py-1" id="tab-fishing">Fishing</button>
+        </div>
+    </header>
 
-            <!-- BERANDA UTAMA -->
-            <main id="main-view" class="flex-1 pb-24 overflow-y-auto">
-                <!-- Banner -->
-                <div class="relative w-full h-48 bg-gray-800">
-                    <img id="banner-img" src="https://images.unsplash.com/photo-1518972553018-8686121b67cc?auto=format&fit=crop&q=80&w=800&h=400" class="w-full h-full object-cover opacity-90" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent flex flex-col justify-end p-4">
-                        <h2 class="text-3xl font-black text-yellow-500 text-center drop-shadow-lg">RP 120,000,000</h2>
-                        <p class="text-center text-sm font-bold text-white mb-2 drop-shadow-md">MAIN SEKARANG</p>
-                    </div>
-                </div>
-
-                <!-- Marquee Text -->
-                <div class="bg-[#1a1a1a] px-4 py-2 flex items-center border-y border-gray-800 shadow-inner">
-                    <i data-lucide="volume-2" class="w-4 h-4 text-gray-400 mr-3 flex-shrink-0"></i>
-                    <div class="overflow-hidden whitespace-nowrap w-full">
-                        <div id="marquee-text-display" class="animate-marquee text-xs text-gray-300">
-                            ★ Selamat Datang di MARVEL88 - Situs Game Online Terpercaya! ★
-                        </div>
-                    </div>
-                </div>
-
-                <!-- AREA TOMBOL AKSI -->
-                <div id="auth-actions-container" class="px-4 py-3">
-                    <div id="btn-group-logged-in" class="flex space-x-3 hidden">
-                        <button onclick="openDepoPage()" class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Deposit</button>
-                        <button class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Transaksi</button>
-                    </div>
-
-                    <div id="btn-group-logged-out" class="flex space-x-3">
-                        <button onclick="openLoginModal()" class="flex-1 bg-gradient-to-r from-yellow-600 to-yellow-500 hover:from-yellow-500 hover:to-yellow-400 text-black font-bold py-2.5 rounded-lg text-sm transition shadow-lg">Masuk</button>
-                        <button onclick="openRegisterModal()" class="flex-1 bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2.5 rounded-lg text-sm border border-purple-400/50 transition shadow-lg">Daftar</button>
-                    </div>
-                </div>
-
-                <!-- KOTAK INFORMASI AKUN -->
-                <div id="user-profile-card" class="mx-4 mb-5 bg-[#1e1e1e] rounded-xl p-4 flex justify-between items-center shadow-lg border border-gray-800 hidden">
-                    <div class="flex items-center space-x-4">
-                        <div class="flex flex-col items-center">
-                            <div class="w-12 h-12 bg-gray-500 rounded-full border-2 border-gray-400 flex items-center justify-center shadow-inner">
-                                <i data-lucide="star" class="w-6 h-6 text-white fill-current"></i>
-                            </div>
-                            <span class="text-[11px] text-gray-300 mt-1 font-semibold">Iron</span>
+    <!-- SIDEBAR DRAWER (SESUAI FOTO 2) -->
+    <div id="sidebar-drawer" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden">
+        <div class="w-80 max-w-[85%] bg-[#18181c] h-full flex flex-col justify-between overflow-y-auto p-4 shadow-2xl">
+            <div>
+                <!-- USER HEADER -->
+                <div class="flex items-center justify-between pb-4 mb-3 border-b border-gray-800">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center">
+                            <i data-lucide="user" class="w-6 h-6 text-purple-400"></i>
                         </div>
                         <div>
-                            <h3 class="text-white font-bold text-sm tracking-wide" id="home-username">yoga098</h3>
-                            <div class="flex items-center space-x-3 mt-1.5">
-                                <p class="text-emerald-400 font-bold text-[15px]" id="home-balance">Rp 2.000</p>
-                                <button class="text-white hover:text-gray-300"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
-                            </div>
+                            <div class="font-bold text-sm text-white" id="sidebar-username">Tamu</div>
+                            <div class="text-xs text-purple-400 font-semibold" id="sidebar-balance">Rp 0</div>
                         </div>
                     </div>
-                    <div class="w-12 h-12 bg-yellow-600/20 rounded-lg flex items-center justify-center text-3xl border border-yellow-600/30">
-                        🎁
-                    </div>
+                    <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
                 </div>
 
-                <!-- GAME GALLERY -->
-                <div class="px-4">
-                    <div class="flex justify-between items-end mb-3">
-                        <div class="flex items-center space-x-2">
-                            <i data-lucide="crown" class="w-5 h-5 text-yellow-500 fill-current"></i>
-                            <div>
-                                <h3 id="current-category-title" class="text-yellow-500 font-bold text-sm uppercase">GAMES SLOT</h3>
-                                <p class="text-[9px] text-yellow-500/70">( SILAKAN PILIH GAME )</p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- PANDUAN PEMAIN -->
+                <button class="w-full bg-[#222228] hover:bg-[#2a2a32] p-3 rounded-xl flex items-center space-x-3 text-sm font-semibold mb-4 border border-gray-800">
+                    <span class="text-yellow-400">💡</span>
+                    <span>Panduan Pemain</span>
+                </button>
 
-                    <div id="game-gallery" class="flex overflow-x-auto gap-3 pb-4 hide-scrollbar">
-                        <!-- Game dimasukkan via JS -->
-                    </div>
-                </div>
-            </main>
-
-            <!-- HALAMAN DEPOSIT / WITHDRAW -->
-            <div id="deposit-withdraw-view" class="hidden flex-1 pb-24 bg-[#121212] overflow-y-auto">
-                <div class="flex border-b border-gray-800">
-                    <button id="tab-depo-btn" onclick="switchDepoTab('depo')" class="flex-1 py-3 text-center font-bold bg-purple-700 text-white">Deposit</button>
-                    <button id="tab-wd-btn" onclick="switchDepoTab('wd')" class="flex-1 py-3 text-center font-bold bg-gray-800 text-gray-400">Penarikan</button>
-                </div>
-
-                <div class="p-4 space-y-4">
-                    <div class="bg-[#1e1e1e] p-4 rounded-xl border border-gray-800">
-                        <p class="text-xs text-gray-400">Dompet Utama</p>
-                        <p id="depo-page-balance" class="text-2xl font-black text-white mt-1">Rp 0</p>
-                    </div>
-
-                    <div id="depo-section">
-                        <h4 class="text-purple-400 text-sm font-bold mb-3">Pilih Metode Deposit</h4>
-                        <div id="payment-methods-grid" class="grid grid-cols-3 gap-2"></div>
-                    </div>
-
-                    <div id="wd-section" class="hidden space-y-3">
-                        <h4 class="text-purple-400 text-sm font-bold mb-3">Formulir Penarikan (Withdraw)</h4>
-                        <input type="number" placeholder="Nominal Penarikan (Min Rp 50.000)" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg text-sm text-white">
-                        <input type="text" placeholder="Nama & Nomor Rekening Tujuan" class="w-full bg-gray-900 border border-gray-700 p-3 rounded-lg text-sm text-white">
-                        <button onclick="alert('Permintaan penarikan dikirim!')" class="w-full bg-purple-600 font-bold py-3 rounded-lg">Kirim Penarikan</button>
-                    </div>
+                <!-- GRID MENU (SESUAI FOTO 2) -->
+                <div class="grid grid-cols-2 gap-2 text-xs font-medium">
+                    <button onclick="openAccountPage(); toggleSidebar();" class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="user" class="w-5 h-5 text-gray-300"></i>
+                        <span id="sidebar-grid-username" class="truncate w-full text-center">Profil</span>
+                    </button>
+                    <button class="bg-gradient-to-br from-emerald-600/30 to-emerald-900/40 border border-emerald-500/30 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5">
+                        <i data-lucide="award" class="w-5 h-5 text-emerald-400"></i>
+                        <span class="text-emerald-300 font-semibold">Bonus Saya</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="file-text" class="w-5 h-5 text-gray-300"></i>
+                        <span>Riwayat Transaksi</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="users" class="w-5 h-5 text-gray-300"></i>
+                        <span>Sistem Referral</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="gift" class="w-5 h-5 text-gray-300"></i>
+                        <span>Promosi</span>
+                    </button>
+                    <button onclick="openDepoPage('depo'); toggleSidebar();" class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="arrow-up-right" class="w-5 h-5 text-purple-400"></i>
+                        <span>Deposit</span>
+                    </button>
+                    <button onclick="openDepoPage('wd'); toggleSidebar();" class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="arrow-down-left" class="w-5 h-5 text-purple-400"></i>
+                        <span>Withdraw</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="megaphone" class="w-5 h-5 text-gray-300"></i>
+                        <span>Pengumuman</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="monitor" class="w-5 h-5 text-gray-300"></i>
+                        <span>Versi PC</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 text-gray-300"></i>
+                        <span>Statistik</span>
+                    </button>
+                    <button class="bg-gradient-to-br from-amber-500/30 to-amber-800/40 border border-amber-500/30 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 relative overflow-hidden">
+                        <span class="absolute top-0 right-0 bg-red-600 text-[8px] px-1 font-bold">NEW</span>
+                        <i data-lucide="gem" class="w-5 h-5 text-amber-400"></i>
+                        <span class="text-amber-300 font-semibold">VIP</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="smartphone" class="w-5 h-5 text-gray-300"></i>
+                        <span>Download APK</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-emerald-400"></i>
+                        <span>Whatsapp</span>
+                    </button>
+                    <button class="bg-[#222228] hover:bg-purple-900/40 p-3 rounded-xl flex flex-col items-center justify-center space-y-1.5 border border-gray-800/80">
+                        <i data-lucide="send" class="w-5 h-5 text-sky-400"></i>
+                        <span>Telegram</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- SIDEBAR MENU SAMPING -->
-            <div id="sidebar-drawer" class="fixed inset-0 bg-black/80 z-50 hidden flex">
-                <div class="w-4/5 max-w-xs bg-[#1a1a1a] h-full p-4 overflow-y-auto space-y-4 shadow-2xl flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-center border-b border-gray-800 pb-3 mb-4">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
-                                    <i data-lucide="user" class="w-6 h-6"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-sm" id="sidebar-username">Tamu</h4>
-                                    <p id="sidebar-balance" class="text-xs text-emerald-400 font-bold">Belum Masuk</p>
-                                </div>
-                            </div>
-                            <button onclick="toggleSidebar()" class="text-gray-400"><i data-lucide="x"></i></button>
-                        </div>
-
-                        <button class="w-full mb-4 bg-gray-800 p-3 rounded-xl flex items-center space-x-3 text-yellow-400 text-xs font-bold border border-gray-700">
-                            <i data-lucide="lightbulb" class="w-4 h-4"></i>
-                            <span>Panduan Pemain</span>
-                        </button>
-                    </div>
-
-                    <div id="sidebar-auth-button"></div>
-                </div>
-                <div onclick="toggleSidebar()" class="flex-1"></div>
+            <!-- TOMBOL KELUAR AKUN (TIDAK DIHAPUS) -->
+            <div class="pt-4 border-t border-gray-800 mt-4" id="sidebar-auth-button">
+                <!-- Dynamically filled by JS -->
             </div>
-
-            <!-- BOTTOM NAVIGATION -->
-            <nav class="fixed bottom-0 w-full max-w-md bg-gradient-to-r from-purple-900 to-indigo-900 rounded-t-2xl z-40 border-t border-purple-500/30">
-                <div class="flex justify-around items-center px-2 py-3">
-                    <button onclick="showHome()" class="flex flex-col items-center text-white">
-                        <i data-lucide="home" class="w-5 h-5 mb-1"></i>
-                        <span class="text-[10px]">Home</span>
-                    </button>
-                    <button onclick="openDepoPage()" class="flex flex-col items-center text-purple-300 hover:text-white transition">
-                        <i data-lucide="wallet" class="w-5 h-5 mb-1"></i>
-                        <span class="text-[10px]">Deposit</span>
-                    </button>
-                    <button onclick="openLiveChat()" class="flex flex-col items-center text-purple-300 hover:text-white transition">
-                        <i data-lucide="message-square" class="w-5 h-5 mb-1"></i>
-                        <span class="text-[10px]">Live Chat</span>
-                    </button>
-                    <button onclick="toggleSidebar()" class="flex flex-col items-center text-purple-300 hover:text-white transition">
-                        <i data-lucide="user" class="w-5 h-5 mb-1"></i>
-                        <span class="text-[10px]">Akun</span>
-                    </button>
-                </div>
-            </nav>
-
         </div>
     </div>
 
-    <!-- ==================== MODAL MASUK (FOTO 1) ==================== -->
-    <div id="modal-login" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm hidden">
-        <div class="w-full max-w-xs bg-stripes-purple border border-purple-500/40 rounded-2xl p-6 relative shadow-2xl text-center">
+    <!-- MAIN VIEW (HOME) -->
+    <main id="main-view" class="p-4 max-w-lg mx-auto">
+        <!-- BANNER -->
+        <div class="rounded-2xl overflow-hidden shadow-lg border border-gray-800 mb-4 bg-gray-900">
+            <img id="banner-img" src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=800&q=80" class="w-full h-40 object-cover">
+        </div>
+
+        <!-- MARQUEE -->
+        <div class="bg-[#1e1e24] p-2.5 rounded-xl border border-gray-800 flex items-center space-x-2 text-xs mb-4">
+            <i data-lucide="volume-2" class="w-4 h-4 text-purple-400 shrink-0"></i>
+            <div class="overflow-hidden whitespace-nowrap">
+                <p id="marquee-text-display" class="inline-block animate-marquee text-gray-300">Selamat Datang di MARVEL88. Proses Deposit & Withdraw Cepat 24 Jam Nonstop!</p>
+            </div>
+        </div>
+
+        <!-- PROFILE CARD ON HOME -->
+        <div id="user-profile-card" class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-4 rounded-2xl border border-purple-500/30 mb-4 flex items-center justify-between hidden">
+            <div>
+                <p class="text-xs text-purple-200">Selamat datang kembali,</p>
+                <h3 id="home-username" class="font-bold text-lg text-white">yoga098</h3>
+                <p class="text-xs text-gray-300 mt-1">Saldo: <span id="home-balance" class="text-yellow-400 font-bold">Rp 2.000</span></p>
+            </div>
+            <button onclick="openDepoPage('depo')" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-lg">Deposit</button>
+        </div>
+
+        <!-- GAME GALLERY -->
+        <div class="flex items-center justify-between mb-3">
+            <h2 id="current-category-title" class="font-bold text-sm tracking-wider text-purple-400 uppercase">GAMES SLOT</h2>
+            <span class="text-xs text-gray-500">Terpopuler</span>
+        </div>
+        <div id="game-gallery" class="grid grid-cols-3 gap-2.5">
+            <!-- Dynamically populated -->
+        </div>
+    </main>
+
+    <!-- DEPOSIT & WITHDRAW VIEW (SESUAI FOTO 3) -->
+    <div id="deposit-withdraw-view" class="hidden max-w-lg mx-auto">
+        <!-- TOP TABS DEPOSIT / PENARIKAN -->
+        <div class="flex border-b border-gray-800 bg-[#18181c]">
+            <button id="tab-depo-btn" onclick="switchDepoTab('depo')" class="flex-1 py-3 text-center font-bold text-sm bg-gray-800 text-gray-400">Deposit</button>
+            <button id="tab-wd-btn" onclick="switchDepoTab('wd')" class="flex-1 py-3 text-center font-bold text-sm bg-purple-700 text-white">Penarikan</button>
+        </div>
+
+        <!-- DEPOSIT SECTION -->
+        <div id="depo-section" class="p-4 hidden">
+            <div class="bg-[#1e1e24] p-4 rounded-2xl border border-gray-800 text-center">
+                <h3 class="font-bold text-sm mb-2 text-purple-400">Formulir Deposit</h3>
+                <p class="text-xs text-gray-400 mb-4">Transfer sesuai nominal ke rekening di bawah ini:</p>
+                <div class="bg-[#121214] p-3 rounded-xl border border-gray-700 text-left text-xs mb-4 space-y-1">
+                    <p class="text-gray-400">Bank Tujuan: <b class="text-white">QRIS ALL PAYMENT</b></p>
+                    <p class="text-gray-400">Atas Nama: <b class="text-white">MARVEL88 OFFICIAL</b></p>
+                    <p class="text-gray-400">Minimal Depo: <b class="text-yellow-400">Rp 10.000</b></p>
+                </div>
+                <input type="number" placeholder="Masukkan Nominal Deposit (Rp)" class="w-full bg-[#121214] border border-gray-700 p-3 rounded-xl text-sm mb-3 text-white outline-none focus:border-purple-500">
+                <button onclick="alert('Permintaan Deposit Terkirim! Mohon tunggu konfirmasi admin.')" class="w-full bg-purple-600 hover:bg-purple-500 font-bold py-3 rounded-xl text-sm shadow-lg">Kirim Deposit</button>
+            </div>
+        </div>
+
+        <!-- PENARIKAN / WITHDRAW SECTION (SESUAI FOTO 3) -->
+        <div id="wd-section" class="p-4">
+            <!-- DOMPET UTAMA -->
+            <div class="bg-[#1e1e24] p-4 rounded-2xl border border-gray-800 mb-4">
+                <p class="text-xs text-gray-400">Dompet Utama</p>
+                <div class="flex items-center space-x-2 mt-1">
+                    <span id="wd-balance-display" class="text-2xl font-black text-white">Rp 2.000</span>
+                    <button onclick="renderAuthView()" class="text-purple-400"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+
+            <h3 class="text-purple-400 font-bold text-sm mb-1">Penarikan (Minimal Rp 50.000)</h3>
+            <p class="text-xs text-gray-400 mb-3">Pilih Rekening Penarikan :</p>
+
+            <!-- KARTU BANK USER OTOMATIS -->
+            <div class="bg-white text-gray-900 rounded-xl p-4 border-2 border-purple-600 shadow-md mb-5 relative overflow-hidden">
+                <div class="text-lg font-black tracking-wider text-blue-900" id="wd-card-bank">BANK BRI</div>
+                <div class="mt-3">
+                    <p class="text-xs font-bold text-gray-800 uppercase" id="wd-card-name">NUROHMAN</p>
+                    <p class="text-sm font-extrabold text-gray-900 tracking-widest mt-0.5" id="wd-card-acc">322701017373506</p>
+                </div>
+            </div>
+
+            <!-- PRESET NOMINAL PENARIKAN -->
+            <p class="text-xs text-gray-400 mb-2">Total Penarikan :</p>
+            <div class="grid grid-cols-3 gap-2 mb-4">
+                <button onclick="setWdAmount(50000)" class="bg-[#1e1e24] hover:bg-purple-900/50 border border-gray-700 py-2.5 text-xs font-semibold rounded-lg">50.000</button>
+                <button onclick="setWdAmount(100000)" class="bg-[#1e1e24] hover:bg-purple-900/50 border border-gray-700 py-2.5 text-xs font-semibold rounded-lg">100.000</button>
+                <button onclick="setWdAmount(200000)" class="bg-[#1e1e24] hover:bg-purple-900/50 border border-gray-700 py-2.5 text-xs font-semibold rounded-lg">200.000</button>
+                <button onclick="setWdAmount(250000)" class="bg-[#1e1e24] hover:bg-purple-900/50 border border-gray-700 py-2.5 text-xs font-semibold rounded-lg">250.000</button>
+                <button onclick="setWdAmount(500000)" class="bg-[#1e1e24] hover:bg-purple-900/50 border border-gray-700 py-2.5 text-xs font-semibold rounded-lg">500.000</button>
+                <button onclick="setWdAmount(1000000)" class="bg-[#1e1e24] hover:bg-purple-900/50 border border-gray-700 py-2.5 text-xs font-semibold rounded-lg">1.000.000</button>
+            </div>
+
+            <!-- INPUT NOMINAL & BUTTON SUBMIT -->
+            <div class="mb-4">
+                <input type="number" id="wd-amount-input" placeholder="Rp. 0" class="w-full bg-[#18181c] border border-gray-700 p-3 rounded-xl text-sm font-semibold text-white outline-none focus:border-purple-500">
+            </div>
+
+            <button onclick="handleWdSubmit()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3.5 rounded-xl text-sm shadow-lg transition">
+                Penarikan
+            </button>
+        </div>
+    </div>
+
+    <!-- ACCOUNT VIEW (SESUAI FOTO 1) -->
+    <div id="account-view" class="hidden max-w-lg mx-auto bg-white text-gray-900 min-h-screen">
+        <!-- TAB HEADER PROFILE AKUN / DETAIL BANK -->
+        <div class="flex bg-[#121214] text-white">
+            <button id="acc-profile-btn" onclick="switchAccountTab('profile')" class="flex-1 py-3 text-center font-bold text-sm bg-purple-700 text-white">Profile Akun</button>
+            <button id="acc-bank-btn" onclick="switchAccountTab('bank')" class="flex-1 py-3 text-center font-bold text-sm bg-[#18181c] text-gray-400">Detail Bank</button>
+        </div>
+
+        <!-- TAB 1: PROFILE AKUN -->
+        <div id="acc-profile-tab" class="p-5">
+            <h3 class="text-purple-800 font-extrabold text-base mb-4">Detail Akun</h3>
             
-            <!-- Tombol Close -->
-            <button onclick="closeLoginModal()" class="absolute top-3 right-3 text-purple-300 bg-purple-900/60 hover:bg-purple-800 p-1 rounded-full transition">
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap</label>
+                    <p id="acc-display-fullname" class="text-sm font-bold text-gray-800 uppercase">NUROHMAN</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">No Hp</label>
+                    <input type="text" id="acc-input-phone" value="085266314752" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm text-gray-800 outline-none focus:border-purple-600">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Email</label>
+                    <input type="email" id="acc-input-email" value="manualstyle3@gmail.com" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm text-gray-800 outline-none focus:border-purple-600">
+                    <p class="text-[11px] text-gray-500 mt-1 italic">*Jika email tidak terisi saat pendaftaran, harap hubungi Customer Service untuk melakukan pendaftaran email.</p>
+                </div>
+
+                <button onclick="saveAccountDetails()" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 rounded-lg text-sm transition">
+                    Simpan
+                </button>
+            </div>
+
+            <hr class="border-gray-200 my-6">
+
+                        <!-- UBAH KATA SANDI -->
+            <h3 class="text-purple-800 font-extrabold text-base mb-4">Ubah Kata Sandi</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Kata Sandi Saat Ini</label>
+                    <input type="password" id="pass-current" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm text-gray-800 outline-none focus:border-purple-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Kata Sandi Baru</label>
+                    <input type="password" id="pass-new" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm text-gray-800 outline-none focus:border-purple-600">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1">Konfirmasi Kata Sandi Baru</label>
+                    <input type="password" id="pass-confirm" class="w-full border border-gray-300 p-2.5 rounded-lg text-sm text-gray-800 outline-none focus:border-purple-600">
+                </div>
+
+                <button onclick="changePassword()" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 rounded-lg text-sm transition mt-2">
+                    Simpan
+                </button>
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAIL BANK -->
+        <div id="acc-bank-tab" class="p-5 hidden">
+            <h3 class="text-purple-800 font-extrabold text-base mb-4">Detail Rekening Bank</h3>
+            
+            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-4">
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <span class="text-xs text-gray-500 block">Nama Bank</span>
+                        <span id="acc-bank-name" class="font-bold text-gray-800 text-base">BANK BRI</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 block">Nama Pemilik Rekening</span>
+                        <span id="acc-bank-holder" class="font-bold text-gray-800 uppercase">NUROHMAN</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-gray-500 block">Nomor Rekening</span>
+                        <span id="acc-bank-acc" class="font-bold text-purple-700 text-lg tracking-wider">322701017373506</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-500 italic bg-yellow-50 p-3 rounded-lg border border-yellow-200 text-yellow-800">
+                * Data bank terikat dengan akun Anda dan digunakan untuk seluruh proses transaksi penarikan dana (Withdrawal).
+            </p>
+        </div>
+    </div>
+
+    <!-- MODAL REGISTER & LOGIN -->
+    <div id="modal-login" class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 hidden">
+        <div class="w-full max-w-md bg-[#18181c] border border-purple-500/40 rounded-2xl p-6 relative shadow-2xl">
+            <button onclick="closeLoginModal()" class="absolute top-3 right-3 text-purple-300 hover:text-white">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-
-            <!-- Logo -->
-            <div class="flex justify-center items-center space-x-2 mb-2 mt-2">
-                <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                    <i data-lucide="crown" class="w-4 h-4 text-white"></i>
-                </div>
-                <span class="text-2xl font-black italic bg-gradient-to-r from-purple-300 to-white bg-clip-text text-transparent">MARVEL88</span>
-            </div>
-
-            <h3 class="text-xl font-bold text-white mb-5">Masuk</h3>
-
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4 text-left">
+            <h3 class="text-xl font-bold text-white mb-4 text-center">Masuk Akun</h3>
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-purple-200 mb-1">Username</label>
-                    <input type="text" id="login-username" required class="w-full bg-white text-black text-sm px-3 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium" placeholder="Masukkan Username">
+                    <label class="block text-xs text-purple-200 mb-1">Username</label>
+                    <input type="text" id="login-username" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg text-sm outline-none focus:border-purple-500">
                 </div>
-
                 <div>
-                    <label class="block text-xs font-semibold text-purple-200 mb-1">Password</label>
-                    <div class="relative">
-                        <input type="password" id="login-password" required class="w-full bg-white text-black text-sm px-3 py-2.5 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-purple-500 font-medium" placeholder="Masukkan Password">
-                        <button type="button" onclick="togglePasswordVisibility('login-password')" class="absolute right-3 top-2.5 text-gray-500 hover:text-black">
-                            <i data-lucide="eye" class="w-4 h-4"></i>
-                        </button>
-                    </div>
+                    <label class="block text-xs text-purple-200 mb-1">Password</label>
+                    <input type="password" id="login-password" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg text-sm outline-none focus:border-purple-500">
                 </div>
-
-                <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold py-2.5 rounded-lg text-sm shadow-lg transition mt-2">
-                    Masuk
-                </button>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg text-sm shadow-lg">Masuk</button>
             </form>
-
-            <div class="mt-3 text-center space-y-3">
-                <a href="#" onclick="alert('Silakan hubungi Customer Service untuk reset password.')" class="text-xs text-purple-300 hover:underline block">Lupa Password ?</a>
-                <p class="text-xs text-purple-200/80">Belum Punya Akun?</p>
-                <button onclick="switchToRegister()" class="w-full border border-purple-400/80 bg-purple-950/40 hover:bg-purple-900/60 text-white font-bold py-2 rounded-lg text-sm transition">
-                    Daftar
-                </button>
-            </div>
+            <p class="text-center text-xs text-gray-400 mt-4">Belum punya akun? <button onclick="switchToRegister()" class="text-purple-400 font-bold underline">Daftar</button></p>
         </div>
     </div>
 
-    <!-- ==================== MODAL DAFTAR (FOTO 2) ==================== -->
-    <div id="modal-register" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-3 backdrop-blur-sm hidden overflow-y-auto">
-        <div class="w-full max-w-md bg-[#18181c] border border-gray-800 rounded-2xl shadow-2xl overflow-hidden my-auto">
-            
-            <!-- Tab & Close -->
-            <div class="flex justify-between items-center bg-[#121214] px-4 pt-3 border-b border-gray-800">
-                <div class="bg-[#18181c] text-purple-400 font-bold px-5 py-2 rounded-t-lg border-t-2 border-purple-500 text-sm">
-                    Daftar
-                </div>
-                <button onclick="closeRegisterModal()" class="text-gray-400 hover:text-white pb-2">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
+    <div id="modal-register" class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 backdrop-blur-sm hidden">
+        <div class="w-full max-w-md bg-[#18181c] border border-gray-800 rounded-2xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center bg-[#121214] px-4 py-3 border-b border-gray-800">
+                <span class="text-purple-400 font-bold text-sm">Pendaftaran Akun</span>
+                <button onclick="closeRegisterModal()" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
             </div>
-
-            <!-- Form Body -->
-            <form onsubmit="handleRegisterSubmit(event)" class="p-4 space-y-4 max-h-[80vh] overflow-y-auto hide-scrollbar text-xs">
-                
-                <!-- DETAIL AKUN -->
+            <form onsubmit="handleRegisterSubmit(event)" class="p-4 space-y-3 overflow-y-auto hide-scrollbar text-xs">
                 <div>
-                    <h4 class="text-purple-400 font-bold text-sm mb-3">Detail Akun</h4>
-                    
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-gray-300 mb-1">Username</label>
-                            <input type="text" id="reg-username" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Kata Sandi</label>
-                            <div class="relative">
-                                <input type="password" id="reg-password" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg pr-9 focus:border-purple-500 outline-none">
-                                <button type="button" onclick="togglePasswordVisibility('reg-password')" class="absolute right-3 top-2.5 text-gray-400"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Konfirmasi Kata Sandi</label>
-                            <div class="relative">
-                                <input type="password" id="reg-confirm-password" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg pr-9 focus:border-purple-500 outline-none">
-                                                        <button type="button" onclick="togglePasswordVisibility('reg-confirm-password')" class="absolute right-3 top-2.5 text-gray-400"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">No Hp <span class="text-gray-500">(Opsional)</span></label>
-                            <input type="text" class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Email <span class="text-gray-500">(Opsional, Berguna untuk Fitur Reset Password)</span></label>
-                            <input type="email" class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Kode Referral <span class="text-gray-500">(Opsional)</span></label>
-                            <input type="text" class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
-                        </div>
-
-                        <div>
-                            <label class="block text-gray-300 mb-1">Captcha</label>
-                            <div class="flex space-x-2 items-center">
-                                <input type="text" id="reg-captcha-input" required class="flex-1 bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
-                                <div id="captcha-box" class="bg-black tracking-widest text-pink-500 font-bold text-base px-4 py-2 rounded border border-gray-700 select-none">NOOY</div>
-                                <button type="button" onclick="generateCaptcha()" class="text-gray-400 hover:text-white"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                    <label class="block text-gray-300 mb-1">Username</label>
+                    <input type="text" id="reg-username" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
                 </div>
-
-                <!-- DETAIL BANK -->
+                <div>
+                    <label class="block text-gray-300 mb-1">Kata Sandi</label>
+                    <input type="password" id="reg-password" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-gray-300 mb-1">Konfirmasi Kata Sandi</label>
+                    <input type="password" id="reg-confirm-password" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-gray-300 mb-1">No HP</label>
+                    <input type="text" id="reg-phone" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
+                </div>
+                <div>
+                    <label class="block text-gray-300 mb-1">Email</label>
+                    <input type="email" id="reg-email" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
+                </div>
                 <div class="pt-2 border-t border-gray-800">
-                    <h4 class="text-purple-400 font-bold text-sm">Detail Bank</h4>
-                    <p class="text-gray-400 mb-3 text-[11px]">Isi Rekening Bank Sekarang</p>
-
-                    <div class="space-y-3">
+                    <p class="text-purple-400 font-bold mb-2">Detail Rekening Bank</p>
+                    <div class="space-y-2">
                         <div>
                             <label class="block text-gray-300 mb-1">Nama Rekening</label>
-                            <input type="text" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                            <input type="text" id="reg-bank-holder" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
                         </div>
-
                         <div>
                             <label class="block text-gray-300 mb-1">Pilih Bank</label>
-                            <select required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
-                                <option value="">-- Pilih Bank --</option>
-                                <option value="BCA">BCA</option>
-                                <option value="MANDIRI">MANDIRI</option>
-                                <option value="BNI">BNI</option>
-                                <option value="BRI">BRI</option>
+                            <select id="reg-bank-name" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
+                                <option value="BANK BRI">BANK BRI</option>
+                                <option value="BANK BCA">BANK BCA</option>
+                                <option value="BANK MANDIRI">BANK MANDIRI</option>
+                                <option value="BANK BNI">BANK BNI</option>
                                 <option value="DANA">DANA</option>
                                 <option value="OVO">OVO</option>
                                 <option value="GOPAY">GOPAY</option>
                             </select>
                         </div>
-
                         <div>
                             <label class="block text-gray-300 mb-1">Nomor Rekening</label>
-                            <input type="number" required class="w-full bg-[#222226] border border-gray-700/80 text-white p-2.5 rounded-lg focus:border-purple-500 outline-none">
+                            <input type="number" id="reg-bank-acc" required class="w-full bg-[#222226] border border-gray-700 text-white p-2.5 rounded-lg outline-none focus:border-purple-500">
                         </div>
                     </div>
                 </div>
-
-                <!-- CHECKBOX PERSETUJUAN -->
-                <div class="pt-2">
-                    <label class="flex items-start space-x-2 cursor-pointer">
-                        <input type="checkbox" required class="mt-0.5 accent-purple-600 rounded">
-                        <span class="text-[11px] text-gray-300 leading-snug">
-                            <strong class="text-red-500">Penting!</strong> Pastikan semua data yang telah anda isi sudah sesuai.<br>
-                            Saya sudah berumur 18 tahun keatas, dan telah menyetujui peraturan di MARVEL88
-                        </span>
-                    </label>
-                </div>
-
-                <!-- SUBMIT DAFTAR -->
-                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 rounded-lg text-sm shadow-lg transition mt-3">
-                    Daftar
-                </button>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg text-sm shadow-lg mt-3">Daftar Akun</button>
             </form>
         </div>
     </div>
 
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 z-40 bg-[#18181c] border-t border-gray-800 max-w-lg mx-auto">
+        <div class="flex justify-around items-center py-2 text-[10px] font-medium text-gray-400">
+            <button onclick="showHome()" id="nav-home" class="flex flex-col items-center space-y-1 text-purple-400">
+                <i data-lucide="home" class="w-5 h-5"></i>
+                <span>Home</span>
+            </button>
+            <button onclick="openDepoPage('depo')" id="nav-deposit" class="flex flex-col items-center space-y-1 hover:text-purple-400">
+                <i data-lucide="wallet" class="w-5 h-5"></i>
+                <span>Deposit</span>
+            </button>
+            <button onclick="openLiveChat()" id="nav-chat" class="flex flex-col items-center space-y-1 hover:text-purple-400">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+                <span>Live Chat</span>
+            </button>
+            <button onclick="openAccountPage()" id="nav-akun" class="flex flex-col items-center space-y-1 hover:text-purple-400">
+                <i data-lucide="user" class="w-5 h-5"></i>
+                <span>Akun</span>
+            </button>
+        </div>
+    </nav>
+
     <!-- JAVASCRIPT LOGIC -->
     <script>
+        // INIT DEFAULT DATA IF NOT SET
+        if(!localStorage.getItem('username')) localStorage.setItem('username', 'yoga098');
+        if(!localStorage.getItem('user_phone')) localStorage.setItem('user_phone', '085266314752');
+        if(!localStorage.getItem('user_email')) localStorage.setItem('user_email', 'manualstyle3@gmail.com');
+        if(!localStorage.getItem('user_bank_holder')) localStorage.setItem('user_bank_holder', 'NUROHMAN');
+        if(!localStorage.getItem('user_bank_name')) localStorage.setItem('user_bank_name', 'BANK BRI');
+        if(!localStorage.getItem('user_bank_acc')) localStorage.setItem('user_bank_acc', '322701017373506');
+        if(!localStorage.getItem('user_balance')) localStorage.setItem('user_balance', '2000');
+        if(!localStorage.getItem('is_logged_in')) localStorage.setItem('is_logged_in', 'true');
+
         lucide.createIcons();
 
-        // Control Sidebar
         function toggleSidebar() {
             document.getElementById('sidebar-drawer').classList.toggle('hidden');
         }
 
-        // Modals Controller
-        function openLoginModal() {
-            document.getElementById('modal-login').classList.remove('hidden');
-        }
-
-        function closeLoginModal() {
-            document.getElementById('modal-login').classList.add('hidden');
-        }
-
-        function openRegisterModal() {
-            generateCaptcha();
-            document.getElementById('modal-register').classList.remove('hidden');
-        }
-
-        function closeRegisterModal() {
-            document.getElementById('modal-register').classList.add('hidden');
-        }
-
-        function switchToRegister() {
-            closeLoginModal();
-            openRegisterModal();
-        }
-
-        function togglePasswordVisibility(inputId) {
-            const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-            } else {
-                input.type = 'password';
-            }
-        }
-
-        let currentCaptcha = "";
-        function generateCaptcha() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            let res = '';
-            for(let i=0; i<4; i++) {
-                res += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            currentCaptcha = res;
-            document.getElementById('captcha-box').innerText = res;
-        }
-
-        function handleLoginSubmit(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            if(username) {
-                localStorage.setItem('username', username);
-                localStorage.setItem('is_logged_in', 'true');
-                alert("Berhasil masuk sebagai " + username);
-                closeLoginModal();
-                location.reload();
-            }
-        }
-
-        function handleRegisterSubmit(e) {
-            e.preventDefault();
-            const pass = document.getElementById('reg-password').value;
-            const confirmPass = document.getElementById('reg-confirm-password').value;
-            const captchaInput = document.getElementById('reg-captcha-input').value;
-            const username = document.getElementById('reg-username').value;
-
-            if(pass !== confirmPass) {
-                alert("Konfirmasi kata sandi tidak cocok!");
-                return;
-            }
-
-            if(captchaInput.toUpperCase() !== currentCaptcha) {
-                alert("Kode Captcha salah!");
-                generateCaptcha();
-                return;
-            }
-
-            localStorage.setItem('username', username);
-            localStorage.setItem('is_logged_in', 'true');
-            alert("Pendaftaran berhasil! Anda telah otomatis login.");
-            closeRegisterModal();
-            location.reload();
+        function setActiveNav(activeId) {
+            ['nav-home', 'nav-deposit', 'nav-chat', 'nav-akun'].forEach(id => {
+                const btn = document.getElementById(id);
+                if(btn) btn.className = "flex flex-col items-center space-y-1 text-gray-400 hover:text-purple-400";
+            });
+            const activeBtn = document.getElementById(activeId);
+            if(activeBtn) activeBtn.className = "flex flex-col items-center space-y-1 text-purple-400 font-bold";
         }
 
         function showHome() {
             document.getElementById('main-view').classList.remove('hidden');
             document.getElementById('deposit-withdraw-view').classList.add('hidden');
-            changeCategory('slot');
+            document.getElementById('account-view').classList.add('hidden');
+            setActiveNav('nav-home');
         }
 
-        function openDepoPage() {
+        function openDepoPage(tab = 'depo') {
             const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
             if(!isLoggedIn) {
-                alert("Silakan Masuk terlebih dahulu untuk melakukan Deposit!");
+                alert("Silakan Masuk terlebih dahulu!");
                 openLoginModal();
                 return;
             }
             document.getElementById('main-view').classList.add('hidden');
             document.getElementById('deposit-withdraw-view').classList.remove('hidden');
-            switchDepoTab('depo');
+            document.getElementById('account-view').classList.add('hidden');
+            switchDepoTab(tab);
+            setActiveNav('nav-deposit');
         }
 
         function switchDepoTab(type) {
@@ -494,28 +481,168 @@
             const wdSec = document.getElementById('wd-section');
 
             if(type === 'depo') {
-                depoBtn.className = "flex-1 py-3 text-center font-bold bg-purple-700 text-white";
-                wdBtn.className = "flex-1 py-3 text-center font-bold bg-gray-800 text-gray-400";
+                depoBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-purple-700 text-white";
+                wdBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-[#18181c] text-gray-400";
                 depoSec.classList.remove('hidden');
                 wdSec.classList.add('hidden');
             } else {
-                wdBtn.className = "flex-1 py-3 text-center font-bold bg-purple-700 text-white";
-                depoBtn.className = "flex-1 py-3 text-center font-bold bg-gray-800 text-gray-400";
+                wdBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-purple-700 text-white";
+                depoBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-[#18181c] text-gray-400";
                 wdSec.classList.remove('hidden');
                 depoSec.classList.add('hidden');
             }
         }
 
+        function openAccountPage() {
+            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+            if(!isLoggedIn) {
+                alert("Silakan Masuk terlebih dahulu!");
+                openLoginModal();
+                return;
+            }
+            document.getElementById('main-view').classList.add('hidden');
+            document.getElementById('deposit-withdraw-view').classList.add('hidden');
+            document.getElementById('account-view').classList.remove('hidden');
+            
+            // Populate account data
+            const username = localStorage.getItem('username');
+            const phone = localStorage.getItem('user_phone');
+            const email = localStorage.getItem('user_email');
+            const bankHolder = localStorage.getItem('user_bank_holder');
+            const bankName = localStorage.getItem('user_bank_name');
+            const bankAcc = localStorage.getItem('user_bank_acc');
+
+            document.getElementById('acc-display-fullname').innerText = bankHolder || username;
+            document.getElementById('acc-input-phone').value = phone || '';
+            document.getElementById('acc-input-email').value = email || '';
+
+            document.getElementById('acc-bank-name').innerText = bankName || '-';
+            document.getElementById('acc-bank-holder').innerText = bankHolder || '-';
+            document.getElementById('acc-bank-acc').innerText = bankAcc || '-';
+
+            switchAccountTab('profile');
+            setActiveNav('nav-akun');
+        }
+
+        function switchAccountTab(tab) {
+            const profileBtn = document.getElementById('acc-profile-btn');
+            const bankBtn = document.getElementById('acc-bank-btn');
+            const profileTab = document.getElementById('acc-profile-tab');
+            const bankTab = document.getElementById('acc-bank-tab');
+
+            if(tab === 'profile') {
+                profileBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-purple-700 text-white";
+                bankBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-[#18181c] text-gray-400";
+                profileTab.classList.remove('hidden');
+                bankTab.classList.add('hidden');
+            } else {
+                bankBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-purple-700 text-white";
+                profileBtn.className = "flex-1 py-3 text-center font-bold text-sm bg-[#18181c] text-gray-400";
+                bankTab.classList.remove('hidden');
+                profileTab.classList.add('hidden');
+            }
+        }
+
+        function saveAccountDetails() {
+            const phone = document.getElementById('acc-input-phone').value;
+            const email = document.getElementById('acc-input-email').value;
+            localStorage.setItem('user_phone', phone);
+            localStorage.setItem('user_email', email);
+            alert('Detail akun berhasil diperbarui!');
+        }
+
+        function changePassword() {
+            const current = document.getElementById('pass-current').value;
+            const newPass = document.getElementById('pass-new').value;
+            const confirm = document.getElementById('pass-confirm').value;
+
+            if(!current || !newPass || !confirm) {
+                alert('Harap isi semua kolom kata sandi!');
+                return;
+            }
+            if(newPass !== confirm) {
+                alert('Konfirmasi kata sandi baru tidak cocok!');
+                return;
+            }
+            alert('Kata sandi berhasil diubah!');
+            document.getElementById('pass-current').value = '';
+            document.getElementById('pass-new').value = '';
+            document.getElementById('pass-confirm').value = '';
+        }
+
+        function setWdAmount(amount) {
+            document.getElementById('wd-amount-input').value = amount;
+        }
+
+        function handleWdSubmit() {
+            const amount = parseFloat(document.getElementById('wd-amount-input').value || 0);
+            const balance = parseFloat(localStorage.getItem('user_balance') || 0);
+
+            if(amount < 50000) {
+                alert('Minimal penarikan dana adalah Rp 50.000!');
+                return;
+            }
+
+            if(amount > balance) {
+                alert('Saldo Dompet Utama Anda tidak mencukupi untuk melakukan penarikan ini!');
+                return;
+            }
+
+            const newBalance = balance - amount;
+            localStorage.setItem('user_balance', newBalance.toString());
+            alert('Permintaan Penarikan Sebesar Rp ' + amount.toLocaleString('id-ID') + ' Berhasil Diproses!');
+            document.getElementById('wd-amount-input').value = '';
+            renderAuthView();
+        }
+
+        function openModalLogin() { document.getElementById('modal-login').classList.remove('hidden'); }
+        function closeLoginModal() { document.getElementById('modal-login').classList.add('hidden'); }
+        function openRegisterModal() { document.getElementById('modal-register').classList.remove('hidden'); }
+        function closeRegisterModal() { document.getElementById('modal-register').classList.add('hidden'); }
+        function switchToRegister() { closeLoginModal(); openRegisterModal(); }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            localStorage.setItem('username', username);
+            localStorage.setItem('is_logged_in', 'true');
+            closeLoginModal();
+            renderAuthView();
+            alert('Berhasil masuk!');
+        }
+
+        function handleRegisterSubmit(e) {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value;
+            const phone = document.getElementById('reg-phone').value;
+            const email = document.getElementById('reg-email').value;
+            const holder = document.getElementById('reg-bank-holder').value;
+            const bankName = document.getElementById('reg-bank-name').value;
+            const bankAcc = document.getElementById('reg-bank-acc').value;
+
+            localStorage.setItem('username', username);
+            localStorage.setItem('user_phone', phone);
+            localStorage.setItem('user_email', email);
+            localStorage.setItem('user_bank_holder', holder);
+                        localStorage.setItem('user_bank_name', bankName);
+            localStorage.setItem('user_bank_acc', bankAcc);
+            localStorage.setItem('is_logged_in', 'true');
+
+            closeRegisterModal();
+            renderAuthView();
+            alert('Pendaftaran berhasil!');
+        }
+
         function openLiveChat() {
-            const chatUrl = localStorage.getItem('app_chat_url') || 'https://google.com';
-            window.open(chatUrl, '_blank');
+            window.open('https://google.com', '_blank');
         }
 
         function keluarAkun() {
             if(confirm("Apakah Anda yakin ingin keluar dari akun?")) {
                 localStorage.setItem('is_logged_in', 'false');
-                alert("Anda telah berhasil keluar.");
-                location.reload();
+                alert("Anda telah keluar.");
+                renderAuthView();
+                showHome();
             }
         }
 
@@ -525,21 +652,33 @@
             const balance = parseFloat(localStorage.getItem('user_balance') || 2000);
             const formattedBalance = 'Rp ' + balance.toLocaleString('id-ID');
 
-            const btnLoggedIn = document.getElementById('btn-group-logged-in');
-            const btnLoggedOut = document.getElementById('btn-group-logged-out');
-            const userProfileCard = document.getElementById('user-profile-card');
+            const bankHolder = localStorage.getItem('user_bank_holder') || 'NUROHMAN';
+            const bankName = localStorage.getItem('user_bank_name') || 'BANK BRI';
+            const bankAcc = localStorage.getItem('user_bank_acc') || '322701017373506';
+
+            // Sidebar UI update
+            document.getElementById('sidebar-username').innerText = isLoggedIn ? username : 'Tamu';
+            document.getElementById('sidebar-grid-username').innerText = isLoggedIn ? username : 'Profil';
+            document.getElementById('sidebar-balance').innerText = isLoggedIn ? formattedBalance : 'Belum Masuk';
+            
+            // Withdraw UI update
+            document.getElementById('wd-balance-display').innerText = formattedBalance;
+            document.getElementById('wd-card-bank').innerText = bankName;
+            document.getElementById('wd-card-name').innerText = bankHolder;
+            document.getElementById('wd-card-acc').innerText = bankAcc;
+
+            // Header buttons
+            const headerBtns = document.getElementById('header-auth-buttons');
             const sidebarAuthBtn = document.getElementById('sidebar-auth-button');
 
             if(isLoggedIn) {
-                btnLoggedIn.classList.remove('hidden');
-                btnLoggedOut.classList.add('hidden');
-                userProfileCard.classList.remove('hidden');
-
+                document.getElementById('user-profile-card').classList.remove('hidden');
                 document.getElementById('home-username').innerText = username;
-                document.getElementById('sidebar-username').innerText = username;
                 document.getElementById('home-balance').innerText = formattedBalance;
-                document.getElementById('sidebar-balance').innerText = formattedBalance;
-                document.getElementById('depo-page-balance').innerText = formattedBalance;
+
+                headerBtns.innerHTML = `
+                    <button onclick="openDepoPage('depo')" class="bg-yellow-500 text-black px-3 py-1.5 rounded-lg text-xs font-bold">Rp ${balance.toLocaleString('id-ID')}</button>
+                `;
 
                 sidebarAuthBtn.innerHTML = `
                     <button onclick="keluarAkun()" class="w-full bg-red-600 hover:bg-red-700 p-3 rounded-xl flex items-center justify-center space-x-2 text-white text-sm font-bold shadow-lg transition">
@@ -548,16 +687,15 @@
                     </button>
                 `;
             } else {
-                btnLoggedIn.classList.add('hidden');
-                btnLoggedOut.classList.remove('hidden');
-                userProfileCard.classList.add('hidden');
-
-                document.getElementById('sidebar-username').innerText = "Tamu";
-                document.getElementById('sidebar-balance').innerText = "Belum Masuk";
+                document.getElementById('user-profile-card').classList.add('hidden');
+                headerBtns.innerHTML = `
+                    <button onclick="openModalLogin()" class="bg-yellow-500 hover:bg-yellow-400 text-black text-xs px-3 py-1.5 rounded-lg font-bold">Masuk</button>
+                    <button onclick="openRegisterModal()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs px-3 py-1.5 rounded-lg font-bold">Daftar</button>
+                `;
 
                 sidebarAuthBtn.innerHTML = `
                     <div class="flex space-x-2">
-                        <button onclick="openLoginModal()" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs">Masuk</button>
+                        <button onclick="openModalLogin()" class="flex-1 bg-yellow-500 hover:bg-yellow-400 text-black py-2.5 rounded-xl font-bold text-xs">Masuk</button>
                         <button onclick="openRegisterModal()" class="flex-1 bg-purple-600 hover:bg-purple-500 text-white py-2.5 rounded-xl font-bold text-xs">Daftar</button>
                     </div>
                 `;
@@ -565,53 +703,43 @@
             lucide.createIcons();
         }
 
-        function loadAdminSettings() {
-            const marquee = localStorage.getItem('app_marquee');
-            const banner = localStorage.getItem('app_banner_img');
-            if(marquee) document.getElementById('marquee-text-display').innerText = marquee;
-            if(banner) document.getElementById('banner-img').src = banner;
-
-            renderAuthView();
-            changeCategory('slot');
-        }
-
         function changeCategory(cat) {
             document.getElementById('current-category-title').innerText = 'GAMES ' + cat.toUpperCase();
-            
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('border-b-2', 'border-purple-500', 'text-purple-400');
-                btn.classList.add('text-gray-400');
+                btn.className = "cat-btn whitespace-nowrap text-gray-400 py-1";
             });
             const activeBtn = document.getElementById('tab-' + cat);
-            if(activeBtn) {
-                activeBtn.classList.remove('text-gray-400');
-                activeBtn.classList.add('border-b-2', 'border-purple-500', 'text-purple-400');
-            }
+            if(activeBtn) activeBtn.className = "cat-btn whitespace-nowrap text-purple-400 border-b-2 border-purple-500 py-1";
 
-            const games = JSON.parse(localStorage.getItem('app_games_' + cat) || '[]');
             const gallery = document.getElementById('game-gallery');
-
-            if(games.length > 0) {
-                gallery.innerHTML = games.map(g => `
-                    <div class="min-w-[130px] bg-[#2a2a30] rounded-xl overflow-hidden relative shadow-md">
-                        <div class="absolute top-1 left-1 bg-black/70 rounded-full p-1"><i data-lucide="play" class="w-3 h-3 text-white fill-current"></i></div>
-                        <div class="absolute top-1 right-1 bg-black/70 px-1 rounded text-[9px] font-bold text-white">BET 100</div>
-                        <img src="${g.img}" class="w-full h-28 object-cover">
-                        <div class="p-2 flex justify-between items-center bg-[#1e1e1e]">
-                            <p class="text-[10px] font-bold text-gray-200 truncate pr-1">${g.title}</p>
-                            <i data-lucide="star" class="w-3 h-3 text-gray-500 hover:text-yellow-400"></i>
-                        </div>
+            gallery.innerHTML = `
+                <div class="bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=300&q=80" class="w-full h-24 object-cover">
+                    <div class="p-2 text-center bg-[#18181c]">
+                        <p class="text-[11px] font-bold text-gray-200 truncate">Gates of Olympus</p>
+                        <span class="text-[9px] text-emerald-400 font-bold">RTP 98.5%</span>
                     </div>
-                `).join('');
-                lucide.createIcons();
-            } else {
-                gallery.innerHTML = `<div class="w-full bg-[#1e1e1e] p-6 rounded-xl border border-gray-800 text-center">
-                    <p class="text-xs text-gray-400">Belum ada game di kategori <b>${cat}</b>.</p>
-                </div>`;
-            }
+                </div>
+                <div class="bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=300&q=80" class="w-full h-24 object-cover">
+                    <div class="p-2 text-center bg-[#18181c]">
+                        <p class="text-[11px] font-bold text-gray-200 truncate">Starlight Princess</p>
+                        <span class="text-[9px] text-emerald-400 font-bold">RTP 97.8%</span>
+                    </div>
+                </div>
+                <div class="bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md">
+                    <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=300&q=80" class="w-full h-24 object-cover">
+                    <div class="p-2 text-center bg-[#18181c]">
+                        <p class="text-[11px] font-bold text-gray-200 truncate">Sweet Bonanza</p>
+                        <span class="text-[9px] text-emerald-400 font-bold">RTP 96.9%</span>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
         }
 
-        loadAdminSettings();
+        renderAuthView();
+        showHome();
     </script>
 </body>
 </html>
