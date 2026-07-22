@@ -118,7 +118,8 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium mb-2">Upload Gambar Game</label>
-                    <input type="file" id="game-image" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-gray-400">
+                    <input type="file" id="game-file-input" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white mb-3 text-sm">
+                    
                 </div>
                 <button onclick="addGame()" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold">Tambah Game Ke Kategori</button>
             </div>
@@ -426,8 +427,7 @@
             };
             reader.readAsDataURL(fileInput.files[0]);
                 }
-                // ================= FUNGSI KOMPRESI GAMBAR OTOMATIS =================
-        // Mencegah memori penuh agar tombol tidak stuck
+                        // ================= FUNGSI KOMPRESI GAMBAR OTOMATIS =================
         function compressAndProcess(fileInput, maxWidth, quality, callback) {
             if (!fileInput || fileInput.files.length === 0) {
                 callback(null);
@@ -443,27 +443,23 @@
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
-
                     if (width > maxWidth) {
                         height = Math.round((height * maxWidth) / width);
                         width = maxWidth;
                     }
-
                     canvas.width = width;
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-
-                    // Mengubah foto HP raksasa jadi sangat ringan (~30-50KB)
                     const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
                     callback(compressedBase64);
                 };
             };
         }
 
-        // 1. Simpan QRIS Otomatis (Terkompres)
         function saveQrisImage() {
-            const fileInput = document.getElementById('admin-qris-file');
+            // Mencari input file khusus QRIS
+            const fileInput = document.getElementById('admin-qris-file') || document.querySelectorAll('input[type="file"]')[0];
             if (!fileInput || fileInput.files.length === 0) {
                 alert('Silakan pilih foto QRIS terlebih dahulu!');
                 return;
@@ -472,25 +468,27 @@
             compressAndProcess(fileInput, 500, 0.7, function(compressedUrl) {
                 if(compressedUrl) {
                     localStorage.setItem('admin_qris_image', compressedUrl);
-                    alert('Berhasil! Barcode QRIS dikompresi & disimpan. Sekarang sudah muncul di halaman pemain!');
+                    alert('Berhasil! Barcode QRIS disimpan dan langsung aktif di web utama!');
                     fileInput.value = '';
                 }
             });
         }
 
-        // 2. Tambah Game Per Kategori (Terkompres)
         function addGame() {
-            const categorySelect = document.getElementById('game-category-select') || document.querySelector('select');
+            const categorySelect = document.getElementById('game-category-select') || document.querySelectorAll('select')[0];
             const gameNameInput = document.getElementById('game-name-input') || document.querySelectorAll('input[type="text"]')[0];
-            const gameFileInput = document.getElementById('game-file-input') || document.querySelector('input[type="file"]');
-
-            const category = categorySelect ? categorySelect.value : 'slot';
-            const name = (gameNameInput && gameNameInput.value) ? gameNameInput.value : 'Game ' + Date.now();
+            
+            // Mencari input file khusus Game agar tidak tertukar dengan QRIS
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            const gameFileInput = document.getElementById('game-file-input') || (fileInputs.length > 1 ? fileInputs[1] : fileInputs[0]);
 
             if (!gameFileInput || gameFileInput.files.length === 0) {
                 alert('Silakan pilih gambar/logo game terlebih dahulu!');
                 return;
             }
+
+            const category = categorySelect ? categorySelect.value : 'slot';
+            const name = (gameNameInput && gameNameInput.value) ? gameNameInput.value : 'Game Baru';
 
             compressAndProcess(gameFileInput, 400, 0.7, function(compressedUrl) {
                 if(compressedUrl) {
@@ -502,7 +500,6 @@
                         image: compressedUrl,
                         rtp: Math.floor(Math.random() * 15) + 85
                     });
-
                     localStorage.setItem('app_games', JSON.stringify(savedGames));
                     alert('Berhasil! Game ' + name + ' ditambahkan ke kategori ' + category.toUpperCase() + '!');
                     if (gameNameInput) gameNameInput.value = '';
@@ -510,6 +507,7 @@
                 }
             });
         }
+        
         
     </script>
 </body>
