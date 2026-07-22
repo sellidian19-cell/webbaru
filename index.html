@@ -15,20 +15,26 @@
 
     <!-- HEADER TOP -->
     <header class="sticky top-0 z-40 bg-[#1e1e24] border-b border-gray-800">
-        <div class="flex items-center justify-between px-4 py-3">
-            <div class="flex items-center space-x-3">
+                <div class="flex items-center justify-between px-4 py-3 relative">
+            <!-- KIRI: Tombol Menu -->
+            <div class="flex-1">
                 <button onclick="toggleSidebar()" class="p-2 bg-purple-700 hover:bg-purple-600 rounded-lg text-white">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
-                <div class="flex items-center space-x-2 cursor-pointer" onclick="showHome()">
-                    <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center font-bold text-lg">M</div>
-                    <span id="app-logo-text-display" class="text-xl font-black italic tracking-wider bg-gradient-to-r from-purple-400 to-white bg-clip-text text-transparent">MARVEL88</span>
+            </div>
+            
+            <!-- TENGAH: Logo -->
+            <div class="flex-none flex items-center space-x-2 cursor-pointer" onclick="showHome()">
+                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center font-bold text-lg text-white">M</div>
+                <span id="app-logo-text-display" class="text-xl font-black italic tracking-wider text-white">MARVEL88</span>
+            </div>
+
+            <!-- KANAN: ID tetap ada agar JS di bawah tidak error, tapi disembunyikan agar saldo hilang -->
+            <div class="flex-1 flex justify-end">
+                <div id="header-auth-buttons" class="hidden"></div>
+            </div>
                 </div>
-            </div>
-            <div class="flex items-center space-x-2" id="header-auth-buttons">
-                <!-- Dynamically filled by JS -->
-            </div>
-        </div>
+        
 
         <!-- CATEGORY NAVIGATION SCROLL -->
         <div class="flex overflow-x-auto space-x-4 px-4 py-2 bg-[#18181c] text-xs font-semibold hide-scrollbar border-t border-gray-800/50">
@@ -145,12 +151,13 @@
         </div>
 
         <!-- MARQUEE -->
-        <div class="bg-[#1e1e24] p-2.5 rounded-xl border border-gray-800 flex items-center space-x-2 text-xs mb-4">
-            <i data-lucide="volume-2" class="w-4 h-4 text-purple-400 shrink-0"></i>
-            <div class="overflow-hidden whitespace-nowrap">
-                <p id="marquee-text-display" class="inline-block animate-marquee text-gray-300">Selamat Datang di MARVEL88. Proses Deposit & Withdraw Cepat 24 Jam Nonstop!</p>
-            </div>
-        </div>
+                    <!-- RUNNING TEXT / TEKS BERJALAN -->
+    <div class="bg-[#18181c] border border-gray-800 p-3 rounded-xl flex items-center space-x-3 mb-6">
+        <i data-lucide="volume-2" class="text-purple-400 w-5 h-5 flex-shrink-0"></i>
+        <marquee class="text-sm text-gray-300 font-medium w-full" id="marquee-text-display">Selamat Datang Di Marvel88 Situs Terpercaya</marquee>
+    </div>
+        
+        
 
         <!-- PROFILE CARD ON HOME -->
         <div id="user-profile-card" class="bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-4 rounded-2xl border border-purple-500/30 mb-4 flex items-center justify-between hidden">
@@ -167,10 +174,11 @@
             <h2 id="current-category-title" class="font-bold text-sm tracking-wider text-purple-400 uppercase">GAMES SLOT</h2>
             <span class="text-xs text-gray-500">Terpopuler</span>
         </div>
-        <div id="game-gallery" class="grid grid-cols-3 gap-2.5">
-            <!-- Dynamically populated -->
-        </div>
-    </main>
+            <!-- KONTENER GAME (Bisa Digeser / Horizontal Scroll) -->
+    <div id="game-gallery" class="flex overflow-x-auto space-x-4 pb-4 snap-x hide-scrollbar">
+        <!-- Game akan dimunculkan otomatis dari JavaScript di bawah -->
+    </div>
+        
 
     <!-- DEPOSIT & WITHDRAW VIEW -->
     <div id="deposit-withdraw-view" class="hidden max-w-lg mx-auto">
@@ -191,35 +199,44 @@
                     <button id="btn-depo-transfer" onclick="switchDepoMethod('transfer')" class="flex-1 p-3 text-gray-400 font-bold text-xs transition">Transfer Bank / E-Wallet</button>
                 </div>
 
-                <!-- FORM QRIS -->
+                                <!-- FORM QRIS (SIMULASI OTOMATIS) -->
                 <div id="form-qris-method">
-                    <p class="text-xs text-gray-400 mb-2">Scan kode QRIS atau transfer ke rekening di bawah ini:</p>
-                    <div class="bg-[#121214] p-3 rounded-xl border border-gray-700 text-left text-xs mb-4 space-y-1">
-                        <p class="text-gray-400">Metode: <b class="text-white">QRIS ALL PAYMENT</b></p>
-                        <p class="text-gray-400">Atas Nama: <b class="text-white">MARVEL88 OFFICIAL</b></p>
-                        <p class="text-gray-400">Minimal Depo: <b class="text-yellow-400">Rp 10.000</b></p>
+                    <p class="text-xs text-gray-400 mb-2">Masukkan nominal terlebih dahulu untuk memunculkan QRIS:</p>
+                    
+                    <input type="number" id="qris-amount" placeholder="Masukkan Nominal Deposit (Min Rp 10.000)" class="w-full bg-[#18181c] border border-gray-700 text-white p-3 rounded-xl text-sm mb-3 outline-none focus:border-purple-500">
+                    
+                    <button id="btn-show-qris" onclick="showQrisCode()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-sm mb-4">Lanjut Scan QRIS</button>
+
+                    <!-- Tempat QRIS Muncul -->
+                    <div id="qris-image-box" class="hidden bg-white p-4 rounded-xl mb-4 text-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QRIS" class="w-48 h-48 mx-auto mb-2">
+                        <p class="text-sm font-bold text-black uppercase">MARVEL88 OFFICIAL</p>
+                        <p class="text-xs text-gray-600">Scan menggunakan M-Banking atau E-Wallet Anda</p>
+                        <button onclick="autoProcessQris()" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl text-sm mt-4">Cek Pembayaran (Otomatis Masuk)</button>
                     </div>
-                    <input type="number" id="qris-amount" placeholder="Masukkan Nominal Deposit (Rp)" class="w-full bg-[#121214] border border-gray-700 p-3 rounded-xl text-sm mb-3 text-white outline-none focus:border-purple-500">
-                    <button onclick="alert('Permintaan Deposit QRIS Terkirim! Mohon tunggu konfirmasi admin.')" class="w-full bg-purple-600 hover:bg-purple-500 font-bold py-3 rounded-xl text-sm shadow-lg">Kirim Deposit QRIS</button>
                 </div>
 
-                <!-- FORM TRANSFER -->
+                <!-- FORM TRANSFER (DENGAN UPLOAD BUKTI) -->
                 <div id="form-transfer-method" class="hidden">
                     <p class="text-xs text-gray-400 mb-3 text-left">Pilih Bank/E-Wallet Tujuan:</p>
-                    
                     <div id="dynamic-bank-grid" class="grid grid-cols-2 gap-2 mb-4">
-                        <!-- Dynamic Bank Buttons from JS -->
+                        <!-- Dynamic Bank Buttons dari JS -->
                     </div>
 
-                    <div id="selected-bank-detail" class="hidden bg-[#121214] p-3 rounded-xl border border-gray-700 text-left text-xs mb-4 space-y-1">
+                    <div id="selected-bank-detail" class="hidden bg-[#121214] p-3 rounded-xl border border-gray-700 text-left text-xs mb-4">
                         <p class="text-gray-400">Bank Tujuan: <b id="detail-bank-name" class="text-white"></b></p>
                         <p class="text-gray-400">Atas Nama: <b id="detail-bank-holder" class="text-white"></b></p>
                         <p class="text-gray-400">No. Rekening: <b id="detail-bank-acc" class="text-white"></b></p>
                     </div>
+
+                    <input type="number" id="transfer-amount" placeholder="Masukkan Nominal Deposit (Rp)" class="w-full bg-[#18181c] border border-gray-700 text-white p-3 rounded-xl text-sm mb-3 outline-none focus:border-purple-500">
                     
-                    <input type="number" id="transfer-amount" placeholder="Masukkan Nominal Deposit (Rp)" class="w-full bg-[#121214] border border-gray-700 p-3 rounded-xl text-sm mb-3 text-white outline-none focus:border-purple-500">
-                    <button onclick="alert('Permintaan Deposit Transfer Terkirim! Mohon tunggu konfirmasi admin.')" class="w-full bg-purple-600 hover:bg-purple-500 font-bold py-3 rounded-xl text-sm shadow-lg">Kirim Deposit Transfer</button>
+                    <label class="block text-xs text-gray-400 mb-1">Upload Bukti Transfer (Wajib):</label>
+                    <input type="file" id="transfer-proof" accept="image/*" class="w-full bg-[#121214] border border-gray-700 text-white p-2 rounded-xl text-xs mb-4">
+
+                    <button onclick="submitManualDeposit()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl text-sm shadow-lg">Kirim Bukti Deposit</button>
                 </div>
+                
             </div>
         </div>
 
@@ -797,6 +814,82 @@
             lucide.createIcons();
         }
 
+                // FUNGSI MEMUNCULKAN QRIS DAN AUTO DEPOSIT
+        function showQrisCode() {
+            const amount = document.getElementById('qris-amount').value;
+            if(amount < 10000) {
+                alert("Minimal deposit QRIS adalah Rp 10.000");
+                return;
+            }
+            document.getElementById('btn-show-qris').classList.add('hidden');
+            document.getElementById('qris-image-box').classList.remove('hidden');
+            document.getElementById('qris-amount').disabled = true; // Kunci nominal
+        }
+
+        function autoProcessQris() {
+            const amount = parseFloat(document.getElementById('qris-amount').value);
+            let currentBalance = parseFloat(localStorage.getItem('user_balance') || 0);
+            
+            // Simulasi proses auto (Loading pura-pura)
+            alert("Sistem sedang memverifikasi pembayaran Anda...");
+            
+            setTimeout(() => {
+                currentBalance += amount;
+                localStorage.setItem('user_balance', currentBalance.toString());
+                alert(`Pembayaran QRIS Berhasil! Saldo Rp ${amount.toLocaleString('id-ID')} telah ditambahkan ke akun Anda.`);
+                
+                // Reset form
+                document.getElementById('btn-show-qris').classList.remove('hidden');
+                document.getElementById('qris-image-box').classList.add('hidden');
+                document.getElementById('qris-amount').value = '';
+                document.getElementById('qris-amount').disabled = false;
+                
+                renderAuthView(); // Update teks saldo
+                showHome();
+            }, 1500);
+        }
+
+        // FUNGSI DEPOSIT TRANSFER BUKTI KE ADMIN
+        function submitManualDeposit() {
+            const amount = document.getElementById('transfer-amount').value;
+            const bank = document.getElementById('detail-bank-name').innerText;
+            const fileInput = document.getElementById('transfer-proof');
+
+            if(!amount || !bank || fileInput.files.length === 0) {
+                alert("Mohon isi nominal, pilih bank, dan upload bukti transfer!");
+                return;
+            }
+
+            // Membaca file gambar menjadi Base64 (Teks)
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const proofDataUrl = e.target.result;
+                
+                // Menyimpan ke riwayat deposit untuk dibaca halaman Admin
+                let pendingDeposits = JSON.parse(localStorage.getItem('admin_pending_deposits') || '[]');
+                
+                pendingDeposits.push({
+                    id: Date.now(),
+                    username: localStorage.getItem('username') || 'Tamu',
+                    amount: parseFloat(amount),
+                    method: bank,
+                    proof: proofDataUrl,
+                    status: 'Pending',
+                    date: new Date().toLocaleString()
+                });
+
+                localStorage.setItem('admin_pending_deposits', JSON.stringify(pendingDeposits));
+                
+                alert('Bukti deposit berhasil dikirim! Silakan tunggu Admin menyetujui (simulasi cek halaman Admin).');
+                document.getElementById('transfer-amount').value = '';
+                fileInput.value = '';
+                showHome();
+            };
+            
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
+        // FUNGSI LOAD GAME DARI ADMIN (MENGHAPUS 3 GAME BAWAAN)
         function changeCategory(cat) {
             document.getElementById('current-category-title').innerText = 'GAMES ' + cat.toUpperCase();
             document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -806,32 +899,31 @@
             if(activeBtn) activeBtn.className = "cat-btn whitespace-nowrap text-purple-400 border-b-2 border-purple-500 py-1";
 
             const gallery = document.getElementById('game-gallery');
-            gallery.innerHTML = `
-                <div class="bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md">
-                    <img src="https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&w=300&q=80" class="w-full h-24 object-cover">
-                    <div class="p-2 text-center bg-[#18181c]">
-                        <p class="text-[11px] font-bold text-gray-200 truncate">Gates of Olympus</p>
-                        <span class="text-[9px] text-emerald-400 font-bold">RTP 98.5%</span>
-                    </div>
-                </div>
-                <div class="bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md">
-                    <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=300&q=80" class="w-full h-24 object-cover">
-                    <div class="p-2 text-center bg-[#18181c]">
-                        <p class="text-[11px] font-bold text-gray-200 truncate">Starlight Princess</p>
-                        <span class="text-[9px] text-emerald-400 font-bold">RTP 97.8%</span>
-                    </div>
-                </div>
-                <div class="bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md">
-                    <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=300&q=80" class="w-full h-24 object-cover">
-                    <div class="p-2 text-center bg-[#18181c]">
-                        <p class="text-[11px] font-bold text-gray-200 truncate">Sweet Bonanza</p>
-                        <span class="text-[9px] text-emerald-400 font-bold">RTP 96.9%</span>
-                    </div>
-                </div>
-            `;
-            lucide.createIcons();
-        }
+            gallery.innerHTML = ''; // Hapus game bawaan
 
+            // Ambil data game dari localStorage (Data dari Admin)
+            let savedGames = JSON.parse(localStorage.getItem('app_games') || '[]');
+            let filteredGames = savedGames.filter(g => g.category.toLowerCase() === cat.toLowerCase());
+
+            if(filteredGames.length === 0) {
+                gallery.innerHTML = `<p class="text-xs text-gray-500 text-center w-full py-4">Belum ada game di kategori ini.</p>`;
+                return;
+            }
+
+            filteredGames.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = "min-w-[140px] bg-[#1e1e24] rounded-xl overflow-hidden border border-gray-800 shadow-md flex-shrink-0 snap-center";
+                gameCard.innerHTML = `
+                    <img src="${game.image}" class="w-full h-28 object-cover">
+                    <div class="p-2 text-center bg-[#18181c]">
+                        <p class="text-[12px] font-bold text-gray-200 truncate">${game.name}</p>
+                        <span class="text-[10px] text-emerald-400 font-bold">RTP ${game.rtp}%</span>
+                    </div>
+                `;
+                gallery.appendChild(gameCard);
+            });
+                      }
+        
         renderAuthView();
         showHome();
     </script>
