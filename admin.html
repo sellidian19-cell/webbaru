@@ -40,6 +40,10 @@
             <button onclick="switchTab('chat')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold flex items-center space-x-3">
                 <i data-lucide="message-square"></i> <span>Live Chat & Playstore URL</span>
             </button>
+                        <button onclick="switchTab('transactions')" class="tab-btn w-full text-left px-4 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 transition-colors flex items-center space-x-3">
+                <i data-lucide="receipt"></i> <span>Manajemen Transaksi</span>
+                        </button>
+            
         </div>
 
         <!-- Main Content Area -->
@@ -136,10 +140,44 @@
                 </div>
                 <button onclick="saveChatUrl()" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-bold">Simpan URL Live Chat</button>
             </div>
+                        <!-- TAB 7: MANAJEMEN TRANSAKSI (DEPOSIT & WITHDRAW) -->
+            <div id="tab-transactions" class="tab-content hidden space-y-6">
+                <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Manajemen Transaksi (Deposit & Withdraw)</h2>
 
+                <!-- TABEL DEPOSIT PENDING -->
+                <div class="bg-gray-900 rounded-xl p-4 shadow-lg border border-gray-800">
+                    <h3 class="text-lg font-semibold mb-4 text-purple-400">Menunggu Persetujuan Deposit</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm whitespace-nowrap">
+                            <thead>
+                                <tr class="text-gray-400 bg-gray-800">
+                                    <th class="p-3 rounded-l-lg">Tanggal</th>
+                                    <th class="p-3">User</th>
+                                    <th class="p-3">Metode</th>
+                                    <th class="p-3">Nominal</th>
+                                    <th class="p-3 text-center">Bukti</th>
+                                    <th class="p-3 text-center rounded-r-lg">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-deposit-table">
+                                <!-- Dimuat oleh JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        <!-- MODAL LIHAT BUKTI TRANSFER -->
+        <div id="proof-modal" class="fixed inset-0 z-50 bg-black/80 hidden flex items-center justify-center p-4">
+            <div class="bg-gray-900 p-4 rounded-xl max-w-md w-full border border-gray-700 relative">
+                <button onclick="closeProofModal()" class="absolute top-2 right-2 bg-red-600 text-white rounded-full w-8 h-8 font-bold hover:bg-red-500">X</button>
+                <h3 class="text-center text-white font-bold mb-4">Bukti Transfer</h3>
+                <img id="proof-image-display" src="" alt="Bukti Transfer" class="w-full h-auto rounded-lg">
+            </div>
         </div>
+            </div>
     </div>
-
+            
     <script>
         lucide.createIcons();
 
@@ -288,6 +326,85 @@
         }
 
         renderPayments();
+                // Fungsi untuk memuat data deposit dari localStorage (Simulasi Database)
+        function loadAdminTransactions() {
+            const depositTbody = document.getElementById('admin-deposit-table');
+            if(!depositTbody) return; // Mencegah error jika elemen tidak ada
+
+            let deposits = JSON.parse(localStorage.getItem('admin_pending_deposits') || '[]');
+            // Filter hanya yang berstatus 'Pending'
+            let pendingDeps = deposits.filter(d => d.status === 'Pending');
+
+            depositTbody.innerHTML = ''; // Kosongkan tabel
+
+            if (pendingDeps.length === 0) {
+                depositTbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Tidak ada deposit yang menunggu persetujuan.</td></tr>`;
+            } else {
+                pendingDeps.forEach(dep => {
+                    depositTbody.innerHTML += `
+                        <tr class="border-b border-gray-700 hover:bg-gray-750">
+                            <td class="p-3 text-xs text-gray-400">${dep.date}</td>
+                            <td class="p-3 font-semibold text-purple-300">${dep.username}</td>
+                            <td class="p-3">${dep.method}</td>
+                            <td class="p-3 text-yellow-400 font-bold">Rp ${dep.amount.toLocaleString('id-ID')}</td>
+                            <td class="p-3 text-center">
+                                <button onclick="viewProof('${dep.proof}')" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1 rounded">Lihat Gambar</button>
+                            </td>
+                            <td class="p-3 text-center space-x-2">
+                                <button onclick="processDeposit(${dep.id}, ${dep.amount}, 'Approved')" class="bg-green-600 hover:bg-green-500 text-white text-xs px-3 py-1 rounded font-bold">Setujui</button>
+                                <button onclick="processDeposit(${dep.id}, ${dep.amount}, 'Rejected')" class="bg-red-600 hover:bg-red-500 text-white text-xs px-3 py-1 rounded font-bold">Tolak</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        // Fungsi Memproses (Menyetujui / Menolak) Deposit
+        function processDeposit(id, amount, action) {
+            let confirmation = confirm(`Apakah Anda yakin ingin ${action === 'Approved' ? 'MENYETUJUI' : 'MENOLAK'} deposit ini?`);
+            if (!confirmation) return;
+
+            let deposits = JSON.parse(localStorage.getItem('admin_pending_deposits') || '[]');
+            let index = deposits.findIndex(d => d.id === id);
+
+            if (index > -1) {
+                // Ubah status
+                deposits[index].status = action;
+                localStorage.setItem('admin_pending_deposits', JSON.stringify(deposits));
+
+                // Jika Disetujui, tambahkan saldo ke pemain
+                if (action === 'Approved') {
+                    // Karena ini prototipe (1 user), kita langsung tambah ke user_balance
+                    let currentBalance = parseFloat(localStorage.getItem('user_balance') || 0);
+                    currentBalance += amount;
+                    localStorage.setItem('user_balance', currentBalance.toString());
+                    alert(`Berhasil! Saldo Rp ${amount.toLocaleString('id-ID')} telah ditambahkan ke akun pemain.`);
+                } else {
+                    alert('Deposit berhasil DITOLAK.');
+                }
+
+                // Muat ulang tabel
+                loadAdminTransactions();
+            }
+        }
+
+        // Fungsi Membuka dan Menutup Gambar Bukti Transfer
+        function viewProof(base64Image) {
+            document.getElementById('proof-image-display').src = base64Image;
+            document.getElementById('proof-modal').classList.remove('hidden');
+        }
+
+        function closeProofModal() {
+            document.getElementById('proof-modal').classList.add('hidden');
+            document.getElementById('proof-image-display').src = '';
+        }
+
+        // Panggil fungsi saat halaman Admin dimuat
+        document.addEventListener("DOMContentLoaded", () => {
+            loadAdminTransactions();
+        });
+        
     </script>
 </body>
 </html>
