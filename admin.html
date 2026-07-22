@@ -98,6 +98,14 @@
             <!-- TAB 4: KELOLA GAME -->
             <div id="tab-games" class="tab-content hidden space-y-6">
                 <h2 class="text-xl font-bold text-white border-b border-gray-700 pb-3">Tambah Permainan per Kategori</h2>
+                        <!-- KOTAK UPLOAD QRIS CUSTOM -->
+        <div class="bg-gray-800 border border-gray-700 rounded-xl p-4 mt-4 mb-8">
+            <h3 class="text-lg font-bold text-purple-400 mb-2">Upload Barcode QRIS Otomatis</h3>
+            <p class="text-xs text-gray-400 mb-3">Gambar ini akan muncul saat pemain menggunakan metode deposit QRIS.</p>
+            <input type="file" id="admin-qris-file" accept="image/*" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white mb-3 text-sm">
+            <button onclick="saveQrisImage()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg text-sm transition">Simpan QRIS</button>
+        </div>
+                
                 <div class="grid grid-cols-2 gap-4">
                     <select id="game-category" class="bg-gray-900 border border-gray-700 rounded-lg p-3 text-white">
                         <option value="slot">Slot</option>
@@ -404,6 +412,20 @@
         document.addEventListener("DOMContentLoaded", () => {
             loadAdminTransactions();
         });
+                function saveQrisImage() {
+            const fileInput = document.getElementById('admin-qris-file');
+            if(fileInput.files.length === 0) {
+                alert('Silakan pilih gambar foto QRIS terlebih dahulu!');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                localStorage.setItem('admin_qris_image', e.target.result);
+                alert('Berhasil! Gambar QRIS telah tersimpan dan langsung aktif di halaman pemain.');
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+                }
         
     </script>
 </body>
